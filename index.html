@@ -4,171 +4,70 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LOVE MOCHI</title>
-
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Segoe UI',sans-serif;
-}
-
-body{
-  height:100vh;
-  overflow:hidden;
-  background:#fff;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body{height:100vh;overflow:hidden;background:#fff;}
 
 /* ✨ Sao + tim bay */
-.float{
-  position:absolute;
-  font-size:14px;
-  animation: fly 6s infinite ease-in-out;
-  opacity:0.6;
-}
-@keyframes fly{
-  0%{transform:translateY(0)}
-  50%{transform:translateY(-30px)}
-  100%{transform:translateY(0)}
-}
+.float{position:absolute;font-size:14px;animation:fly 6s infinite ease-in-out;opacity:0.6;}
+@keyframes fly{0%{transform:translateY(0)}50%{transform:translateY(-30px)}100%{transform:translateY(0)}}
 
 /* ===== INTRO ===== */
-#intro{
-  position:fixed;
-  inset:0;
-  background:linear-gradient(180deg,#ffe6f1,#fff);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  z-index:10;
-}
-
-.logo{
-  font-size:46px;
-  font-weight:800;
-  color:#ff8fb8;
-  letter-spacing:2px;
-  animation:pulse 1.5s infinite alternate;
-}
-
-@keyframes pulse{
-  from{transform:scale(1)}
-  to{transform:scale(1.08)}
-}
-
-.tap{
-  margin-top:14px;
-  color:#ff9ec6;
-  animation:blink 1.2s infinite;
-}
-@keyframes blink{
-  0%,100%{opacity:1}
-  50%{opacity:0.4}
-}
+#intro{position:fixed;inset:0;background:linear-gradient(180deg,#ffe6f1,#fff);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;}
+.logo{font-size:46px;font-weight:800;color:#ff8fb8;letter-spacing:2px;animation:pulse 1.5s infinite alternate;}
+@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.08)}}
+.tap{margin-top:14px;color:#ff9ec6;animation:blink 1.2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
 
 /* ===== APP ===== */
-#app{
-  position:fixed;
-  inset:0;
-  display:none;
-  background:linear-gradient(180deg,#ffd1e6,#ffebf4);
-  align-items:center;
-  justify-content:center;
-  animation:fade 1s ease;
-}
-
-@keyframes fade{
-  from{opacity:0}
-  to{opacity:1}
-}
-
-.phone{
-  width:240px;
-  height:420px;
-  border-radius:40px;
-  background:linear-gradient(180deg,#fff,#ffe6f1);
-  box-shadow:0 0 35px rgba(255,120,180,0.5);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  animation:pop 1s ease;
-}
-
-@keyframes pop{
-  from{transform:scale(0)}
-  to{transform:scale(1)}
-}
-
-.heart{
-  font-size:70px;
-  animation:beat 1s infinite;
-}
-@keyframes beat{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.25)}
-  100%{transform:scale(1)}
-}
-
-.enter{
-  margin-top:20px;
-  color:#ff6fa7;
-  font-size:15px;
-  animation:blink 1.3s infinite;
-}
+#app{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#ffd1e6,#ffebf4);align-items:center;justify-content:center;animation:fade 1s ease;}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.phone{width:240px;height:420px;border-radius:40px;background:linear-gradient(180deg,#fff,#ffe6f1);box-shadow:0 0 35px rgba(255,120,180,0.5);display:flex;flex-direction:column;align-items:center;justify-content:center;animation:pop 1s ease;}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.heart{font-size:70px;animation:beat 1s infinite;}
+@keyframes beat{0%{transform:scale(1)}50%{transform:scale(1.25)}100%{transform:scale(1)}}
+.enter{margin-top:20px;color:#ff6fa7;font-size:15px;animation:blink 1.3s infinite;}
 
 /* ===== BẢNG THÔNG BÁO ===== */
-#rule{
-  position:fixed;
-  inset:0;
-  display:none;
-  background:linear-gradient(180deg,#ffb7d5,#ffe6f1);
-  align-items:center;
-  justify-content:center;
-}
+#rule{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#ffb7d5,#ffe6f1);align-items:center;justify-content:center;}
+.board{width:85%;max-width:360px;background:#fff;border-radius:26px;padding:22px;box-shadow:0 0 40px rgba(255,120,180,0.45);animation:rise 1.2s ease;}
+@keyframes rise{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.board h2{color:#ff6fa7;text-align:center;margin-bottom:12px;}
+.board p{font-size:14px;line-height:1.6;color:#555;}
+.glow{text-shadow:0 0 8px #ffb7d5;}
+.ok{margin-top:18px;text-align:center;color:#ff6fa7;font-weight:600;animation:blink 1.4s infinite;}
 
-.board{
-  width:85%;
-  max-width:360px;
-  background:#fff;
-  border-radius:26px;
-  padding:22px;
-  box-shadow:0 0 40px rgba(255,120,180,0.45);
-  animation:rise 1.2s ease;
-}
+/* ===== ĐIỂM DANH ===== */
+#daily{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#ffd1e6,#fff);align-items:center;justify-content:center;z-index:9;}
+.daily-board{width:90%;max-width:360px;background:#fff;border-radius:26px;padding:22px;box-shadow:0 0 40px rgba(255,120,180,.45);animation:rise 1s ease;}
+.daily-board h2{text-align:center;color:#ff6fa7;}
+.days{display:flex;gap:10px;margin:15px 0;}
+.day{flex:1;padding:14px;text-align:center;background:#fff5fa;border-radius:18px;font-size:13px;}
+.day.lock{opacity:.4}
+.claim{background:#ff6fa7;color:#fff;padding:12px;text-align:center;border-radius:20px;font-weight:600;animation:blink 1.3s infinite;}
 
-@keyframes rise{
-  from{opacity:0;transform:translateY(40px)}
-  to{opacity:1;transform:translateY(0)}
-}
+/* ===== CHAR ===== */
+#chars{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#ffe0ef,#fff);overflow-y:auto;padding-bottom:30px;}
+.char-header{text-align:center;padding:14px;font-weight:700;color:#ff6fa7;background:#fff;box-shadow:0 3px 10px rgba(255,150,190,.3);}
+.flower-count{font-size:13px;margin-top:4px;}
+.list{padding:14px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 6px 18px rgba(255,120,180,.3);position:relative;cursor:pointer;}
+.card img{width:100%;height:160px;object-fit:cover;}
+.name{text-align:center;padding:8px;color:#ff6fa7;font-weight:600;}
+.lock{position:absolute;inset:0;background:rgba(255,210,230,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;color:#ff4f90;}
 
-.board h2{
-  color:#ff6fa7;
-  text-align:center;
-  margin-bottom:12px;
-}
-
-.board p{
-  font-size:14px;
-  line-height:1.6;
-  color:#555;
-}
-
-.glow{
-  text-shadow:0 0 8px #ffb7d5;
-}
-
-.ok{
-  margin-top:18px;
-  text-align:center;
-  color:#ff6fa7;
-  font-weight:600;
-  animation:blink 1.4s infinite;
-}
+/* ===== CHAT ===== */
+#chat{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#ffe6f1,#fff);flex-direction:column;}
+.chat-header{padding:14px;background:#fff;box-shadow:0 3px 10px rgba(255,150,190,.3);text-align:center;font-weight:700;color:#ff6fa7;}
+.chat-box{flex:1;padding:14px;overflow-y:auto;font-size:14px;color:#444;}
+.msg{background:#fff;padding:10px 14px;border-radius:18px;margin-bottom:10px;width:fit-content;max-width:80%;box-shadow:0 0 12px rgba(255,150,190,.25);animation:rise .5s ease;}
+.msg.char{border-top-left-radius:6px;}
+.msg.user{margin-left:auto;background:#ff6fa7;color:#fff;border-top-right-radius:6px;}
+.input{display:flex;padding:10px;gap:8px;}
+.input input{flex:1;border:none;padding:10px;border-radius:18px;outline:none;box-shadow:0 0 8px rgba(255,150,190,.3);}
+.input button{background:#ff6fa7;border:none;color:#fff;padding:0 16px;border-radius:18px;}
 </style>
 </head>
-
 <body>
 
 <script>
@@ -213,136 +112,7 @@ for(let i=0;i<30;i++){
   </div>
 </div>
 
-<script>
-function goApp(){
-  intro.style.display="none";
-  app.style.display="flex";
-}
-function goRule(){
-  app.style.display="none";
-  rule.style.display="flex";
-}
-</script>
-<style>
-/* ===== ĐIỂM DANH ===== */
-#daily{
-  position:fixed;
-  inset:0;
-  display:none;
-  background:linear-gradient(180deg,#ffd1e6,#fff);
-  align-items:center;
-  justify-content:center;
-  z-index:9;
-}
-
-.daily-board{
-  width:90%;
-  max-width:360px;
-  background:#fff;
-  border-radius:26px;
-  padding:22px;
-  box-shadow:0 0 40px rgba(255,120,180,.45);
-  animation:rise 1s ease;
-}
-
-.daily-board h2{
-  text-align:center;
-  color:#ff6fa7;
-}
-
-.days{
-  display:flex;
-  gap:10px;
-  margin:15px 0;
-}
-
-.day{
-  flex:1;
-  padding:14px;
-  text-align:center;
-  background:#fff5fa;
-  border-radius:18px;
-  font-size:13px;
-}
-
-.day.lock{opacity:.4}
-
-.claim{
-  background:#ff6fa7;
-  color:#fff;
-  padding:12px;
-  text-align:center;
-  border-radius:20px;
-  font-weight:600;
-  animation:blink 1.3s infinite;
-}
-
-/* ===== CHAR ===== */
-#chars{
-  position:fixed;
-  inset:0;
-  display:none;
-  background:linear-gradient(180deg,#ffe0ef,#fff);
-  overflow-y:auto;
-  padding-bottom:30px;
-}
-
-.char-header{
-  text-align:center;
-  padding:14px;
-  font-weight:700;
-  color:#ff6fa7;
-  background:#fff;
-  box-shadow:0 3px 10px rgba(255,150,190,.3);
-}
-
-.flower-count{
-  font-size:13px;
-  margin-top:4px;
-}
-
-.list{
-  padding:14px;
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
-}
-
-.card{
-  background:#fff;
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 6px 18px rgba(255,120,180,.3);
-  position:relative;
-}
-
-.card img{
-  width:100%;
-  height:160px;
-  object-fit:cover;
-}
-
-.name{
-  text-align:center;
-  padding:8px;
-  color:#ff6fa7;
-  font-weight:600;
-}
-
-.lock{
-  position:absolute;
-  inset:0;
-  background:rgba(255,210,230,.85);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  font-size:13px;
-  color:#ff4f90;
-}
-</style>
-
-<!-- ===== ĐIỂM DANH ===== -->
+<!-- ĐIỂM DANH -->
 <div id="daily">
   <div class="daily-board">
     <h2>🌸 Điểm danh hằng ngày</h2>
@@ -355,7 +125,7 @@ function goRule(){
   </div>
 </div>
 
-<!-- ===== CHỌN NHÂN VẬT ===== -->
+<!-- CHỌN NHÂN VẬT -->
 <div id="chars">
   <div class="char-header">
     🌸 Nhân vật LOVE MOCHI
@@ -368,19 +138,16 @@ function goRule(){
       <div class="lock">🔒 Cần 5 🌸</div>
       <div class="name">Kael</div>
     </div>
-
     <div class="card">
       <img src="https://i.imgur.com/3sY3X5H.jpg">
       <div class="lock">🔒 Cần 5 🌸</div>
       <div class="name">Yến Tuân</div>
     </div>
-
     <div class="card">
       <img src="https://i.imgur.com/BxGz5cQ.jpg">
       <div class="lock">🔒 Cần 5 🌸</div>
       <div class="name">Mochi</div>
     </div>
-
     <div class="card">
       <img src="https://i.imgur.com/TmYJz6Y.jpg">
       <div class="lock">🔒 Cần 5 🌸</div>
@@ -389,94 +156,7 @@ function goRule(){
   </div>
 </div>
 
-<script>
-let flowers = Number(localStorage.getItem("flowers")) || 0;
-document.getElementById("flower").innerText = flowers;
-
-// sau bảng rule → mở điểm danh
-document.querySelector(".ok").onclick = ()=>{
-  rule.style.display="none";
-  daily.style.display="flex";
-};
-
-function claimFlower(){
-  flowers += 10;
-  localStorage.setItem("flowers",flowers);
-  document.getElementById("flower").innerText = flowers;
-  daily.style.display="none";
-  chars.style.display="block";
-}
-  </script>
-  <!-- ===== CHAT ===== -->
-<style>
-#chat{
-  position:fixed;
-  inset:0;
-  display:none;
-  background:linear-gradient(180deg,#ffe6f1,#fff);
-  flex-direction:column;
-}
-
-.chat-header{
-  padding:14px;
-  background:#fff;
-  box-shadow:0 3px 10px rgba(255,150,190,.3);
-  text-align:center;
-  font-weight:700;
-  color:#ff6fa7;
-}
-
-.chat-box{
-  flex:1;
-  padding:14px;
-  overflow-y:auto;
-  font-size:14px;
-  color:#444;
-}
-
-.msg{
-  background:#fff;
-  padding:10px 14px;
-  border-radius:18px;
-  margin-bottom:10px;
-  width:fit-content;
-  max-width:80%;
-  box-shadow:0 0 12px rgba(255,150,190,.25);
-  animation:rise .5s ease;
-}
-
-.msg.char{border-top-left-radius:6px}
-.msg.user{
-  margin-left:auto;
-  background:#ff6fa7;
-  color:#fff;
-  border-top-right-radius:6px;
-}
-
-.input{
-  display:flex;
-  padding:10px;
-  gap:8px;
-}
-
-.input input{
-  flex:1;
-  border:none;
-  padding:10px;
-  border-radius:18px;
-  outline:none;
-  box-shadow:0 0 8px rgba(255,150,190,.3);
-}
-
-.input button{
-  background:#ff6fa7;
-  border:none;
-  color:#fff;
-  padding:0 16px;
-  border-radius:18px;
-}
-</style>
-
+<!-- CHAT -->
 <div id="chat">
   <div class="chat-header" id="chatName">Mochi – Thiện cảm: <span id="affection">0</span></div>
   <div class="chat-box" id="chatBox">
@@ -489,199 +169,13 @@ function claimFlower(){
 </div>
 
 <script>
-// Hoa và trạng thái unlock
-let flowers = Number(localStorage.getItem("flowers")) || 0;
-let unlocked = JSON.parse(localStorage.getItem("unlocked") || "[]");
-let affection = JSON.parse(localStorage.getItem("affection") || "{}");
-
-// Gắn click cho card
-document.querySelectorAll(".card").forEach(card=>{
-  let lock = card.querySelector(".lock");
-  let name = card.querySelector(".name").innerText;
-
-  // Nếu mở rồi → ẩn lock
-  if(unlocked.includes(name)) lock.style.display="none";
-
-  card.onclick = ()=>{
-    if(unlocked.includes(name)){
-      openChat(name);
-      return;
-    }
-
-    if(flowers >= 5){
-      if(confirm(`Mở khóa ${name} với 5 🌸?`)){
-        flowers -=5;
-        localStorage.setItem("flowers",flowers);
-        document.getElementById("flower").innerText = flowers;
-
-        unlocked.push(name);
-        localStorage.setItem("unlocked",JSON.stringify(unlocked));
-        lock.style.display="none";
-
-        // Khởi tạo thiện cảm = 0
-        affection[name] = 0;
-        localStorage.setItem("affection",JSON.stringify(affection));
-
-        openChat(name);
-      }
-    } else {
-      alert("Chưa đủ hoa 🌸!");
-    }
-  }
-});
-
-// Mở chat
-function openChat(name){
-  chars.style.display="none";
-  chat.style.display="flex";
-  document.getElementById("chatName").innerHTML = `${name} – Thiện cảm: <span id="affection">${affection[name] || 0}</span>`;
-  document.getElementById("chatBox").innerHTML = `<div class="msg char">Chào em~ Anh là ${name} 💗</div>`;
-}
-
-// Gửi tin nhắn
-function sendMsg(){
-  let input = document.getElementById("chatInput");
-  let text = input.value.trim();
-  if(!text) return;
-  
-  // Thêm tin nhắn người dùng
-  let userMsg = document.createElement("div");
-  userMsg.className="msg user";
-  userMsg.innerText=text;
-  document.getElementById("chatBox").appendChild(userMsg);
-
-  // Mock phản hồi char (ngẫu nhiên thiện cảm tăng/giảm)
-  let charMsg = document.createElement("div");
-  charMsg.className="msg char";
-
-  let delta = Math.random() <0.6 ? 1 : -1; // 60% tăng, 40% giảm
-  affection[document.getElementById("chatName").innerText.split(" – ")[0]] += delta;
-  let aff = affection[document.getElementById("chatName").innerText.split(" – ")[0]];
-  if(aff <0) aff=0;
-  affection[document.getElementById("chatName").innerText.split(" – ")[0]] = aff;
-  localStorage.setItem("affection",JSON.stringify(affection));
-
-  document.getElementById("chatName").innerHTML = `${document.getElementById("chatName").innerText.split(" – ")[0]} – Thiện cảm: <span id="affection">${aff}</span>`;
-
-  charMsg.innerText = delta>0 ? "😊 Anh thích điều đó!" : "😅 Anh không hài lòng!";
-  document.getElementById("chatBox").appendChild(charMsg);
-
-  input.value="";
-  document.getElementById("chatBox").scrollTop = document.getElementById("chatBox").scrollHeight;
-}
-</script>
-  <script>
-// Lấy hoa và trạng thái unlocked từ localStorage
-let flowers = Number(localStorage.getItem("flowers")) || 0;
-let unlocked = JSON.parse(localStorage.getItem("unlocked") || "[]");
-let affection = JSON.parse(localStorage.getItem("affection") || "{}");
-
-// Update hoa trên UI
-document.getElementById("flower").innerText = flowers;
-
-// Gắn click cho từng char card
-document.querySelectorAll(".card").forEach(card => {
-  let lock = card.querySelector(".lock");
-  let name = card.querySelector(".name").innerText;
-
-  // Nếu char đã mở → ẩn lock
-  if(unlocked.includes(name)) lock.style.display="none";
-
-  card.onclick = () => {
-    // Nếu mở rồi → mở chat trực tiếp
-    if(unlocked.includes(name)){
-      openChat(name);
-      return;
-    }
-
-    // Kiểm tra hoa
-    if(flowers >= 5){
-      if(confirm(`Mở khóa ${name} với 5 🌸?`)){
-        // Trừ hoa thật
-        flowers -= 5;
-        localStorage.setItem("flowers", flowers);
-        document.getElementById("flower").innerText = flowers;
-
-        // Thêm char vào unlocked
-        unlocked.push(name);
-        localStorage.setItem("unlocked", JSON.stringify(unlocked));
-
-        // Ẩn lock
-        lock.style.display="none";
-
-        // Khởi tạo thiện cảm = 0 nếu chưa có
-        if(!(name in affection)) affection[name] = 0;
-        localStorage.setItem("affection", JSON.stringify(affection));
-
-        // Mở chat
-        openChat(name);
-      }
-    } else {
-      alert("Chưa đủ 5 🌸 để mở khóa char!");
-    }
-  }
-});
-
-// Hàm mở chat
-function openChat(name){
-  // Ẩn giao diện chọn char, hiển thị chat
-  document.getElementById("chars").style.display = "none";
-  document.getElementById("chat").style.display = "flex";
-
-  // Hiển thị header char + thiện cảm
-  document.getElementById("chatName").innerHTML = `${name} – Thiện cảm: <span id="affection">${affection[name]}</span>`;
-
-  // Khởi tạo chat box
-  document.getElementById("chatBox").innerHTML = `<div class="msg char">Chào em~ Anh là ${name} 💗</div>`;
-}
-
-// Gửi tin nhắn + thay đổi thiện cảm
-function sendMsg(){
-  let input = document.getElementById("chatInput");
-  let text = input.value.trim();
-  if(!text) return;
-
-  // Thêm tin nhắn user
-  let userMsg = document.createElement("div");
-  userMsg.className = "msg user";
-  userMsg.innerText = text;
-  document.getElementById("chatBox").appendChild(userMsg);
-
-  // Phản hồi char (mock)
-  let charMsg = document.createElement("div");
-  charMsg.className = "msg char";
-
-  // Lấy tên char hiện tại
-  let chatName = document.getElementById("chatName").innerText.split(" – ")[0];
-
-  // Tăng / giảm thiện cảm (mock)
-  let delta = Math.random() < 0.6 ? 1 : -1; // 60% tăng, 40% giảm
-  affection[chatName] += delta;
-  if(affection[chatName] < 0) affection[chatName] = 0;
-  localStorage.setItem("affection", JSON.stringify(affection));
-
-  // Cập nhật header
-  document.getElementById("chatName").innerHTML = `${chatName} – Thiện cảm: <span id="affection">${affection[chatName]}</span>`;
-
-  // Nội dung phản hồi
-  charMsg.innerText = delta > 0 ? "😊 Anh thích điều đó!" : "😅 Anh không hài lòng!";
-  document.getElementById("chatBox").appendChild(charMsg);
-
-  // Scroll xuống dưới
-  document.getElementById("chatBox").scrollTop = document.getElementById("chatBox").scrollHeight;
-  input.value = "";
-}
-  </script>
-</body>
-  </html>
-<script>
-// 1. Biến chung
+/* ===== CHUNG ===== */
 let flowers = Number(localStorage.getItem("flowers")) || 0;
 let unlocked = JSON.parse(localStorage.getItem("unlocked") || "[]");
 let affection = JSON.parse(localStorage.getItem("affection") || "{}");
 document.getElementById("flower").innerText = flowers;
 
-// 2. Intro → App → Rule → Điểm danh
+// Intro → App → Rule → Điểm danh
 function goApp(){ intro.style.display="none"; app.style.display="flex"; }
 function goRule(){ app.style.display="none"; rule.style.display="flex"; }
 document.querySelector(".ok").onclick = ()=>{
@@ -689,16 +183,16 @@ document.querySelector(".ok").onclick = ()=>{
   daily.style.display="flex";
 };
 
-// 3. Điểm danh
+// Điểm danh
 function claimFlower(){
-  flowers += 10;
+  flowers +=10;
   localStorage.setItem("flowers",flowers);
   document.getElementById("flower").innerText = flowers;
   daily.style.display="none";
   chars.style.display="block";
 }
 
-// 4. Click card → mở khóa → chat
+// Gắn click cho card → mở khóa + chat
 document.querySelectorAll(".card").forEach(card=>{
   let lock = card.querySelector(".lock");
   let name = card.querySelector(".name").innerText;
@@ -706,12 +200,13 @@ document.querySelectorAll(".card").forEach(card=>{
 
   card.onclick = ()=>{
     if(unlocked.includes(name)){ openChat(name); return; }
-    if(flowers >= 5){
+    if(flowers>=5){
       if(confirm(`Mở khóa ${name} với 5 🌸?`)){
         flowers -=5; localStorage.setItem("flowers",flowers);
         document.getElementById("flower").innerText = flowers;
 
-        unlocked.push(name); localStorage.setItem("unlocked",JSON.stringify(unlocked));
+        unlocked.push(name);
+        localStorage.setItem("unlocked",JSON.stringify(unlocked));
         lock.style.display="none";
 
         if(!(name in affection)) affection[name]=0;
@@ -723,25 +218,26 @@ document.querySelectorAll(".card").forEach(card=>{
   }
 });
 
-// 5. Mở chat
+// Mở chat
 function openChat(name){
-  chars.style.display="none"; chat.style.display="flex";
+  chars.style.display="none";
+  chat.style.display="flex";
   document.getElementById("chatName").innerHTML = `${name} – Thiện cảm: <span id="affection">${affection[name]}</span>`;
   document.getElementById("chatBox").innerHTML = `<div class="msg char">Chào em~ Anh là ${name} 💗</div>`;
 }
 
-// 6. Gửi tin nhắn + thiện cảm
+// Gửi tin nhắn + thay đổi thiện cảm
 function sendMsg(){
   let input = document.getElementById("chatInput");
   let text = input.value.trim(); if(!text) return;
-
   let chatName = document.getElementById("chatName").innerText.split(" – ")[0];
 
   // Tin nhắn user
-  let userMsg = document.createElement("div"); userMsg.className="msg user"; userMsg.innerText=text;
+  let userMsg = document.createElement("div");
+  userMsg.className="msg user"; userMsg.innerText=text;
   document.getElementById("chatBox").appendChild(userMsg);
 
-  // Tin nhắn char + thay đổi thiện cảm
+  // Tin nhắn char
   let delta = Math.random()<0.6?1:-1;
   affection[chatName] += delta; if(affection[chatName]<0) affection[chatName]=0;
   localStorage.setItem("affection",JSON.stringify(affection));
@@ -750,9 +246,10 @@ function sendMsg(){
   charMsg.innerText = delta>0?"😊 Anh thích điều đó!":"😅 Anh không hài lòng!";
   document.getElementById("chatBox").appendChild(charMsg);
 
-  // Update header + scroll
   document.getElementById("chatName").innerHTML = `${chatName} – Thiện cảm: <span id="affection">${affection[chatName]}</span>`;
   document.getElementById("chatBox").scrollTop = document.getElementById("chatBox").scrollHeight;
   input.value="";
 }
 </script>
+</body>
+  </html>
