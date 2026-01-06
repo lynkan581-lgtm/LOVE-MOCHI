@@ -407,5 +407,168 @@ function claimFlower(){
   chars.style.display="block";
 }
   </script>
+  <!-- ===== CHAT ===== -->
+<style>
+#chat{
+  position:fixed;
+  inset:0;
+  display:none;
+  background:linear-gradient(180deg,#ffe6f1,#fff);
+  flex-direction:column;
+}
+
+.chat-header{
+  padding:14px;
+  background:#fff;
+  box-shadow:0 3px 10px rgba(255,150,190,.3);
+  text-align:center;
+  font-weight:700;
+  color:#ff6fa7;
+}
+
+.chat-box{
+  flex:1;
+  padding:14px;
+  overflow-y:auto;
+  font-size:14px;
+  color:#444;
+}
+
+.msg{
+  background:#fff;
+  padding:10px 14px;
+  border-radius:18px;
+  margin-bottom:10px;
+  width:fit-content;
+  max-width:80%;
+  box-shadow:0 0 12px rgba(255,150,190,.25);
+  animation:rise .5s ease;
+}
+
+.msg.char{border-top-left-radius:6px}
+.msg.user{
+  margin-left:auto;
+  background:#ff6fa7;
+  color:#fff;
+  border-top-right-radius:6px;
+}
+
+.input{
+  display:flex;
+  padding:10px;
+  gap:8px;
+}
+
+.input input{
+  flex:1;
+  border:none;
+  padding:10px;
+  border-radius:18px;
+  outline:none;
+  box-shadow:0 0 8px rgba(255,150,190,.3);
+}
+
+.input button{
+  background:#ff6fa7;
+  border:none;
+  color:#fff;
+  padding:0 16px;
+  border-radius:18px;
+}
+</style>
+
+<div id="chat">
+  <div class="chat-header" id="chatName">Mochi – Thiện cảm: <span id="affection">0</span></div>
+  <div class="chat-box" id="chatBox">
+    <div class="msg char">Chào em~ Anh là Mochi đây 💗</div>
+  </div>
+  <div class="input">
+    <input id="chatInput" placeholder="Nhập tin nhắn...">
+    <button onclick="sendMsg()">Gửi</button>
+  </div>
+</div>
+
+<script>
+// Hoa và trạng thái unlock
+let flowers = Number(localStorage.getItem("flowers")) || 0;
+let unlocked = JSON.parse(localStorage.getItem("unlocked") || "[]");
+let affection = JSON.parse(localStorage.getItem("affection") || "{}");
+
+// Gắn click cho card
+document.querySelectorAll(".card").forEach(card=>{
+  let lock = card.querySelector(".lock");
+  let name = card.querySelector(".name").innerText;
+
+  // Nếu mở rồi → ẩn lock
+  if(unlocked.includes(name)) lock.style.display="none";
+
+  card.onclick = ()=>{
+    if(unlocked.includes(name)){
+      openChat(name);
+      return;
+    }
+
+    if(flowers >= 5){
+      if(confirm(`Mở khóa ${name} với 5 🌸?`)){
+        flowers -=5;
+        localStorage.setItem("flowers",flowers);
+        document.getElementById("flower").innerText = flowers;
+
+        unlocked.push(name);
+        localStorage.setItem("unlocked",JSON.stringify(unlocked));
+        lock.style.display="none";
+
+        // Khởi tạo thiện cảm = 0
+        affection[name] = 0;
+        localStorage.setItem("affection",JSON.stringify(affection));
+
+        openChat(name);
+      }
+    } else {
+      alert("Chưa đủ hoa 🌸!");
+    }
+  }
+});
+
+// Mở chat
+function openChat(name){
+  chars.style.display="none";
+  chat.style.display="flex";
+  document.getElementById("chatName").innerHTML = `${name} – Thiện cảm: <span id="affection">${affection[name] || 0}</span>`;
+  document.getElementById("chatBox").innerHTML = `<div class="msg char">Chào em~ Anh là ${name} 💗</div>`;
+}
+
+// Gửi tin nhắn
+function sendMsg(){
+  let input = document.getElementById("chatInput");
+  let text = input.value.trim();
+  if(!text) return;
+  
+  // Thêm tin nhắn người dùng
+  let userMsg = document.createElement("div");
+  userMsg.className="msg user";
+  userMsg.innerText=text;
+  document.getElementById("chatBox").appendChild(userMsg);
+
+  // Mock phản hồi char (ngẫu nhiên thiện cảm tăng/giảm)
+  let charMsg = document.createElement("div");
+  charMsg.className="msg char";
+
+  let delta = Math.random() <0.6 ? 1 : -1; // 60% tăng, 40% giảm
+  affection[document.getElementById("chatName").innerText.split(" – ")[0]] += delta;
+  let aff = affection[document.getElementById("chatName").innerText.split(" – ")[0]];
+  if(aff <0) aff=0;
+  affection[document.getElementById("chatName").innerText.split(" – ")[0]] = aff;
+  localStorage.setItem("affection",JSON.stringify(affection));
+
+  document.getElementById("chatName").innerHTML = `${document.getElementById("chatName").innerText.split(" – ")[0]} – Thiện cảm: <span id="affection">${aff}</span>`;
+
+  charMsg.innerText = delta>0 ? "😊 Anh thích điều đó!" : "😅 Anh không hài lòng!";
+  document.getElementById("chatBox").appendChild(charMsg);
+
+  input.value="";
+  document.getElementById("chatBox").scrollTop = document.getElementById("chatBox").scrollHeight;
+}
+</script>
 </body>
   </html>
