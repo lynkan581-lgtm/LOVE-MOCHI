@@ -223,6 +223,189 @@ function goRule(){
   rule.style.display="flex";
 }
 </script>
+<style>
+/* ===== ĐIỂM DANH ===== */
+#daily{
+  position:fixed;
+  inset:0;
+  display:none;
+  background:linear-gradient(180deg,#ffd1e6,#fff);
+  align-items:center;
+  justify-content:center;
+  z-index:9;
+}
 
+.daily-board{
+  width:90%;
+  max-width:360px;
+  background:#fff;
+  border-radius:26px;
+  padding:22px;
+  box-shadow:0 0 40px rgba(255,120,180,.45);
+  animation:rise 1s ease;
+}
+
+.daily-board h2{
+  text-align:center;
+  color:#ff6fa7;
+}
+
+.days{
+  display:flex;
+  gap:10px;
+  margin:15px 0;
+}
+
+.day{
+  flex:1;
+  padding:14px;
+  text-align:center;
+  background:#fff5fa;
+  border-radius:18px;
+  font-size:13px;
+}
+
+.day.lock{opacity:.4}
+
+.claim{
+  background:#ff6fa7;
+  color:#fff;
+  padding:12px;
+  text-align:center;
+  border-radius:20px;
+  font-weight:600;
+  animation:blink 1.3s infinite;
+}
+
+/* ===== CHAR ===== */
+#chars{
+  position:fixed;
+  inset:0;
+  display:none;
+  background:linear-gradient(180deg,#ffe0ef,#fff);
+  overflow-y:auto;
+  padding-bottom:30px;
+}
+
+.char-header{
+  text-align:center;
+  padding:14px;
+  font-weight:700;
+  color:#ff6fa7;
+  background:#fff;
+  box-shadow:0 3px 10px rgba(255,150,190,.3);
+}
+
+.flower-count{
+  font-size:13px;
+  margin-top:4px;
+}
+
+.list{
+  padding:14px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+.card{
+  background:#fff;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 6px 18px rgba(255,120,180,.3);
+  position:relative;
+}
+
+.card img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+}
+
+.name{
+  text-align:center;
+  padding:8px;
+  color:#ff6fa7;
+  font-weight:600;
+}
+
+.lock{
+  position:absolute;
+  inset:0;
+  background:rgba(255,210,230,.85);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  color:#ff4f90;
+}
+</style>
+
+<!-- ===== ĐIỂM DANH ===== -->
+<div id="daily">
+  <div class="daily-board">
+    <h2>🌸 Điểm danh hằng ngày</h2>
+    <div class="days">
+      <div class="day lock">🔒<br>Ngày 1</div>
+      <div class="day lock">🔒<br>Ngày 2</div>
+      <div class="day">🌸<br>+10 Hoa</div>
+    </div>
+    <div class="claim" onclick="claimFlower()">Nhận 10 🌸</div>
+  </div>
+</div>
+
+<!-- ===== CHỌN NHÂN VẬT ===== -->
+<div id="chars">
+  <div class="char-header">
+    🌸 Nhân vật LOVE MOCHI
+    <div class="flower-count">Hoa hiện có: <span id="flower">0</span> 🌸</div>
+  </div>
+
+  <div class="list">
+    <div class="card">
+      <img src="https://i.imgur.com/8Qf4F6y.jpg">
+      <div class="lock">🔒 Cần 5 🌸</div>
+      <div class="name">Kael</div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.imgur.com/3sY3X5H.jpg">
+      <div class="lock">🔒 Cần 5 🌸</div>
+      <div class="name">Yến Tuân</div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.imgur.com/BxGz5cQ.jpg">
+      <div class="lock">🔒 Cần 5 🌸</div>
+      <div class="name">Mochi</div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.imgur.com/TmYJz6Y.jpg">
+      <div class="lock">🔒 Cần 5 🌸</div>
+      <div class="name">Noel</div>
+    </div>
+  </div>
+</div>
+
+<script>
+let flowers = Number(localStorage.getItem("flowers")) || 0;
+document.getElementById("flower").innerText = flowers;
+
+// sau bảng rule → mở điểm danh
+document.querySelector(".ok").onclick = ()=>{
+  rule.style.display="none";
+  daily.style.display="flex";
+};
+
+function claimFlower(){
+  flowers += 10;
+  localStorage.setItem("flowers",flowers);
+  document.getElementById("flower").innerText = flowers;
+  daily.style.display="none";
+  chars.style.display="block";
+}
+  </script>
 </body>
   </html>
