@@ -82,7 +82,59 @@ for(let i=0;i<30;i++){
   document.body.appendChild(f);
 }
 </script>
+<!-- ===== NHIỆM VỤ ===== -->
+<div id="task" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;z-index:20;">
+  <div style="background:#eee;color:#333;width:90%;max-width:360px;border-radius:20px;padding:20px;box-shadow:0 0 30px rgba(0,0,0,0.2);">
+    <h3 id="taskName" style="text-align:center;color:#ff6fa7;margin-bottom:10px;">Nhiệm vụ với Kael</h3>
+    <div id="taskStory" style="background:#ccc;border-radius:14px;padding:12px;font-size:13px;line-height:1.5;max-height:200px;overflow-y:auto;">
+      Kael từng gặp bạn ở mùa đông... anh ấy rất buồn vì bị bỏ rơi. Giúp Kael tìm lại nụ cười bằng cách trò chuyện vui vẻ với anh ấy.
+    </div>
+    <div style="text-align:center;margin-top:14px;">
+      <button onclick="startTask()" style="background:#ff6fa7;color:#fff;padding:10px 18px;border-radius:18px;font-weight:600;">Bắt đầu nhiệm vụ</button>
+      <button onclick="closeTask()" style="background:#aaa;color:#fff;padding:10px 18px;border-radius:18px;font-weight:600;margin-left:10px;">Đóng</button>
+    </div>
+  </div>
+</div>
 
+<script>
+// Mở nhiệm vụ từ giao diện char
+function openTask(name){
+  document.getElementById("taskName").innerText = `Nhiệm vụ với ${name}`;
+  // Ví dụ story khác nhau theo char
+  let story = {
+    "Kael":"Kael từng gặp bạn ở mùa đông... anh ấy rất buồn vì bị bỏ rơi. Giúp Kael tìm lại nụ cười bằng cách trò chuyện vui vẻ với anh ấy.",
+    "Yến Tuân":"Yến Tuân đã từng lạc mất món đồ quý giá. Giúp anh ấy tìm lại bằng cách trả lời đúng các câu hỏi.",
+    "Mochi":"Mochi rất cô đơn khi ở trường cũ. Hãy an ủi và làm Mochi vui bằng tin nhắn của bạn.",
+    "Noel":"Noel từng thất bại trong dự án quan trọng. Hãy giúp anh ấy lấy lại tự tin bằng trò chuyện tích cực."
+  };
+  document.getElementById("taskStory").innerText = story[name] || "Hãy trò chuyện và làm char vui!";
+  task.style.display="flex";
+  currentTaskChar = name; // lưu char hiện tại
+}
+
+function closeTask(){ task.style.display="none"; }
+
+// Khi bấm bắt đầu nhiệm vụ → vào chat char
+let currentTaskChar="";
+function startTask(){
+  closeTask();
+  openChat(currentTaskChar);
+
+  // Thêm tin nhắn hướng dẫn nhiệm vụ vào chat
+  let box = document.getElementById("chatBox");
+  let msg = document.createElement("div");
+  msg.className="msg char";
+  msg.innerText="🎯 Nhiệm vụ: Hãy nhắn tin thật vui vẻ với mình để nhận thiện cảm!";
+  box.appendChild(msg);
+  box.scrollTop = box.scrollHeight;
+}
+
+// Gắn nút nhiệm vụ trong card (ví dụ thêm sau khi mở char)
+document.querySelectorAll(".card").forEach(card=>{
+  let name = card.querySelector(".name").innerText;
+  let btn = document.createElement("div");
+  btn.innerText="📜 Nhiệm vụ";
+  btn.style.cssText="position:absolute;bottom:8px;right:8px;background:#ff6fa7;color:#fff;padding:6px 10px;border-radius:12px;font
 <!-- INTRO -->
 <div id="intro" onclick="goApp()">
   <div class="logo">💗🌷</div>
