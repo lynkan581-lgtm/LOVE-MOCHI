@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOVE MOCHI</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI', sans-serif;
+}
+
+body{
+  height:100vh;
+  background:linear-gradient(180deg,#ffe6f1,#fff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+/* ✨ Sao bay */
+.star{
+  position:absolute;
+  width:6px;
+  height:6px;
+  background:pink;
+  border-radius:50%;
+  animation: float 6s infinite ease-in-out;
+  opacity:0.7;
+}
+@keyframes float{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-20px)}
+  100%{transform:translateY(0)}
+}
+
+/* 🌸 Intro */
+#intro{
+  position:fixed;
+  inset:0;
+  background:#fff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  animation: fadeIn 1.5s ease;
+  z-index:10;
+}
+
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+.logo{
+  font-size:46px;
+  font-weight:800;
+  color:#ff8fb8;
+  letter-spacing:2px;
+  animation: pop 1.5s infinite alternate;
+}
+
+@keyframes pop{
+  from{transform:scale(1)}
+  to{transform:scale(1.08)}
+}
+
+.tap{
+  margin-top:15px;
+  font-size:15px;
+  color:#ff9ec6;
+  animation: blink 1.2s infinite;
+}
+@keyframes blink{
+  0%,100%{opacity:1}
+  50%{opacity:0.4}
+}
+
+/* 📱 App nổi */
+#app{
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  animation: zoom 1s ease forwards;
+}
+
+@keyframes zoom{
+  from{transform:scale(0);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+.phone{
+  width:240px;
+  height:420px;
+  border-radius:40px;
+  background:linear-gradient(180deg,#ffd6e8,#fff);
+  box-shadow:0 0 30px rgba(255,140,180,0.5);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+/* 💉 Trái tim tiêm */
+.heart{
+  font-size:70px;
+  animation: beat 1s infinite;
+}
+@keyframes beat{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.2)}
+  100%{transform:scale(1)}
+}
+
+.text{
+  margin-top:20px;
+  font-size:18px;
+  color:#ff6fa7;
+  text-align:center;
+  animation: rise 1.5s ease;
+}
+
+@keyframes rise{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ✨ Sao -->
+<script>
+for(let i=0;i<25;i++){
+  let s=document.createElement("div");
+  s.className="star";
+  s.style.left=Math.random()*100+"vw";
+  s.style.top=Math.random()*100+"vh";
+  s.style.animationDelay=Math.random()*5+"s";
+  document.body.appendChild(s);
+}
+</script>
+
+<!-- 🌸 Intro -->
+<div id="intro" onclick="startApp()">
+  <div class="logo">LOVE MOCHI</div>
+  <div class="tap">Chạm để bắt đầu kết nối 💗</div>
+</div>
+
+<!-- 📱 App -->
+<div id="app">
+  <div class="phone">
+    <div class="heart">💉💖</div>
+    <div class="text">Chào mừng đến với<br><b>MOCHI LOVE</b></div>
+  </div>
+</div>
+
+<script>
+function startApp(){
+  document.getElementById("intro").style.display="none";
+  document.getElementById("app").style.display="flex";
+}
+</script>
+
+</body>
+</html>
