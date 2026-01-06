@@ -10,50 +10,38 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:'Segoe UI', sans-serif;
+  font-family:'Segoe UI',sans-serif;
 }
 
 body{
   height:100vh;
-  background:linear-gradient(180deg,#ffe6f1,#fff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
   overflow:hidden;
+  background:#fff;
 }
 
-/* ✨ Sao bay */
-.star{
+/* ✨ Sao + tim bay */
+.float{
   position:absolute;
-  width:6px;
-  height:6px;
-  background:pink;
-  border-radius:50%;
-  animation: float 6s infinite ease-in-out;
-  opacity:0.7;
+  font-size:14px;
+  animation: fly 6s infinite ease-in-out;
+  opacity:0.6;
 }
-@keyframes float{
+@keyframes fly{
   0%{transform:translateY(0)}
-  50%{transform:translateY(-20px)}
+  50%{transform:translateY(-30px)}
   100%{transform:translateY(0)}
 }
 
-/* 🌸 Intro */
+/* ===== INTRO ===== */
 #intro{
   position:fixed;
   inset:0;
-  background:#fff;
+  background:linear-gradient(180deg,#ffe6f1,#fff);
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  animation: fadeIn 1.5s ease;
   z-index:10;
-}
-
-@keyframes fadeIn{
-  from{opacity:0}
-  to{opacity:1}
 }
 
 .logo{
@@ -61,111 +49,180 @@ body{
   font-weight:800;
   color:#ff8fb8;
   letter-spacing:2px;
-  animation: pop 1.5s infinite alternate;
+  animation:pulse 1.5s infinite alternate;
 }
 
-@keyframes pop{
+@keyframes pulse{
   from{transform:scale(1)}
   to{transform:scale(1.08)}
 }
 
 .tap{
-  margin-top:15px;
-  font-size:15px;
+  margin-top:14px;
   color:#ff9ec6;
-  animation: blink 1.2s infinite;
+  animation:blink 1.2s infinite;
 }
 @keyframes blink{
   0%,100%{opacity:1}
   50%{opacity:0.4}
 }
 
-/* 📱 App nổi */
+/* ===== APP ===== */
 #app{
+  position:fixed;
+  inset:0;
   display:none;
-  flex-direction:column;
+  background:linear-gradient(180deg,#ffd1e6,#ffebf4);
   align-items:center;
   justify-content:center;
-  animation: zoom 1s ease forwards;
+  animation:fade 1s ease;
 }
 
-@keyframes zoom{
-  from{transform:scale(0);opacity:0}
-  to{transform:scale(1);opacity:1}
+@keyframes fade{
+  from{opacity:0}
+  to{opacity:1}
 }
 
 .phone{
   width:240px;
   height:420px;
   border-radius:40px;
-  background:linear-gradient(180deg,#ffd6e8,#fff);
-  box-shadow:0 0 30px rgba(255,140,180,0.5);
+  background:linear-gradient(180deg,#fff,#ffe6f1);
+  box-shadow:0 0 35px rgba(255,120,180,0.5);
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
+  animation:pop 1s ease;
 }
 
-/* 💉 Trái tim tiêm */
+@keyframes pop{
+  from{transform:scale(0)}
+  to{transform:scale(1)}
+}
+
 .heart{
   font-size:70px;
-  animation: beat 1s infinite;
+  animation:beat 1s infinite;
 }
 @keyframes beat{
   0%{transform:scale(1)}
-  50%{transform:scale(1.2)}
+  50%{transform:scale(1.25)}
   100%{transform:scale(1)}
 }
 
-.text{
+.enter{
   margin-top:20px;
-  font-size:18px;
   color:#ff6fa7;
-  text-align:center;
-  animation: rise 1.5s ease;
+  font-size:15px;
+  animation:blink 1.3s infinite;
+}
+
+/* ===== BẢNG THÔNG BÁO ===== */
+#rule{
+  position:fixed;
+  inset:0;
+  display:none;
+  background:linear-gradient(180deg,#ffb7d5,#ffe6f1);
+  align-items:center;
+  justify-content:center;
+}
+
+.board{
+  width:85%;
+  max-width:360px;
+  background:#fff;
+  border-radius:26px;
+  padding:22px;
+  box-shadow:0 0 40px rgba(255,120,180,0.45);
+  animation:rise 1.2s ease;
 }
 
 @keyframes rise{
-  from{opacity:0;transform:translateY(20px)}
+  from{opacity:0;transform:translateY(40px)}
   to{opacity:1;transform:translateY(0)}
+}
+
+.board h2{
+  color:#ff6fa7;
+  text-align:center;
+  margin-bottom:12px;
+}
+
+.board p{
+  font-size:14px;
+  line-height:1.6;
+  color:#555;
+}
+
+.glow{
+  text-shadow:0 0 8px #ffb7d5;
+}
+
+.ok{
+  margin-top:18px;
+  text-align:center;
+  color:#ff6fa7;
+  font-weight:600;
+  animation:blink 1.4s infinite;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ✨ Sao -->
 <script>
-for(let i=0;i<25;i++){
-  let s=document.createElement("div");
-  s.className="star";
-  s.style.left=Math.random()*100+"vw";
-  s.style.top=Math.random()*100+"vh";
-  s.style.animationDelay=Math.random()*5+"s";
-  document.body.appendChild(s);
+const icons=["✨","⭐","💗","🌸"];
+for(let i=0;i<30;i++){
+  let f=document.createElement("div");
+  f.className="float";
+  f.innerText=icons[Math.floor(Math.random()*icons.length)];
+  f.style.left=Math.random()*100+"vw";
+  f.style.top=Math.random()*100+"vh";
+  f.style.animationDelay=Math.random()*5+"s";
+  document.body.appendChild(f);
 }
 </script>
 
-<!-- 🌸 Intro -->
-<div id="intro" onclick="startApp()">
+<!-- INTRO -->
+<div id="intro" onclick="goApp()">
   <div class="logo">LOVE MOCHI</div>
   <div class="tap">Chạm để bắt đầu kết nối 💗</div>
 </div>
 
-<!-- 📱 App -->
-<div id="app">
+<!-- APP -->
+<div id="app" onclick="goRule()">
   <div class="phone">
-    <div class="heart">🌷💖</div>
-    <div class="text">Chào mừng đến với<br><b>MOCHI LOVE</b></div>
+    <div class="heart">💉💖</div>
+    <div class="enter">Chạm lần nữa để tiếp tục</div>
+  </div>
+</div>
+
+<!-- RULE -->
+<div id="rule">
+  <div class="board">
+    <h2 class="glow">CHÀO MỪNG ĐẾN LOVE MOCHI!</h2>
+    <p>
+      Bạn là <b>người được chọn</b>! 💗<br><br>
+      Quy tắc rất đơn giản: bạn sẽ chat với những nhân vật và hoàn thành nhiệm vụ mà <b>Mochi</b> đưa ra.<br><br>
+      Nếu hoàn thành nhiệm vụ, bạn sẽ nhận <b>hoa 🌸</b> và tích điểm để mua những vật phẩm, chức năng tuyệt vời!<br><br>
+      Tuy nhiên, nếu thất bại bạn sẽ bị <b>- hoa</b> và <b>cấm làm nhiệm vụ</b>. Lúc này bạn chỉ có thể chat với char thường.<br><br>
+      Char thường cần tích hoa. Muốn có hoa, mỗi ngày đăng nhập bạn sẽ nhận <b>10 hoa</b> 🌸
+    </p>
+    <div class="ok">Chạm để bắt đầu hành trình ✨</div>
   </div>
 </div>
 
 <script>
-function startApp(){
-  document.getElementById("intro").style.display="none";
-  document.getElementById("app").style.display="flex";
+function goApp(){
+  intro.style.display="none";
+  app.style.display="flex";
+}
+function goRule(){
+  app.style.display="none";
+  rule.style.display="flex";
 }
 </script>
 
 </body>
-</html>
+  </html>
