@@ -140,7 +140,33 @@ document.querySelectorAll(".card").forEach(card=>{
   <div class="logo">💗🌷</div>
   <div class="tap">Chạm để bắt đầu kết nối 💗</div>
 </div>
+<!-- Thêm nút Hoàn thành nhiệm vụ trong bảng chat nhiệm vụ -->
+<div style="text-align:center;margin-top:12px;">
+  <button id="completeTaskBtn" style="background:#ff6fa7;color:#fff;padding:10px 18px;border-radius:18px;font-weight:600;">Hoàn thành nhiệm vụ 🌸</button>
+</div>
 
+<script>
+// Khi bấm Hoàn thành nhiệm vụ
+document.getElementById("completeTaskBtn").onclick = ()=>{
+  // cộng hoa
+  flowers += 5; // ví dụ thưởng 5 hoa
+  localStorage.setItem("flowers",flowers);
+  document.getElementById("flower").innerText = flowers;
+
+  // cộng thiện cảm với char hiện tại
+  if(currentTaskChar){
+    affection[currentTaskChar] = (affection[currentTaskChar] || 0) + 5;
+    localStorage.setItem("affection",JSON.stringify(affection));
+    if(document.getElementById("chatName"))
+      document.getElementById("chatName").innerHTML = `${currentTaskChar} – Thiện cảm: <span id="affection">${affection[currentTaskChar]}</span>`;
+  }
+
+  alert(`🎉 Bạn đã hoàn thành nhiệm vụ! Nhận 5 🌸 và thiện cảm với ${currentTaskChar} tăng!`);
+  
+  closeTask();
+  openChat(currentTaskChar); // quay lại chat char
+}
+</script>
 <!-- APP -->
 <div id="app" onclick="goRule()">
   <div class="phone">
