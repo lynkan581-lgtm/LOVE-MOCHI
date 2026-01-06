@@ -674,3 +674,85 @@ function sendMsg(){
   </script>
 </body>
   </html>
+<script>
+// 1. Biến chung
+let flowers = Number(localStorage.getItem("flowers")) || 0;
+let unlocked = JSON.parse(localStorage.getItem("unlocked") || "[]");
+let affection = JSON.parse(localStorage.getItem("affection") || "{}");
+document.getElementById("flower").innerText = flowers;
+
+// 2. Intro → App → Rule → Điểm danh
+function goApp(){ intro.style.display="none"; app.style.display="flex"; }
+function goRule(){ app.style.display="none"; rule.style.display="flex"; }
+document.querySelector(".ok").onclick = ()=>{
+  rule.style.display="none";
+  daily.style.display="flex";
+};
+
+// 3. Điểm danh
+function claimFlower(){
+  flowers += 10;
+  localStorage.setItem("flowers",flowers);
+  document.getElementById("flower").innerText = flowers;
+  daily.style.display="none";
+  chars.style.display="block";
+}
+
+// 4. Click card → mở khóa → chat
+document.querySelectorAll(".card").forEach(card=>{
+  let lock = card.querySelector(".lock");
+  let name = card.querySelector(".name").innerText;
+  if(unlocked.includes(name)) lock.style.display="none";
+
+  card.onclick = ()=>{
+    if(unlocked.includes(name)){ openChat(name); return; }
+    if(flowers >= 5){
+      if(confirm(`Mở khóa ${name} với 5 🌸?`)){
+        flowers -=5; localStorage.setItem("flowers",flowers);
+        document.getElementById("flower").innerText = flowers;
+
+        unlocked.push(name); localStorage.setItem("unlocked",JSON.stringify(unlocked));
+        lock.style.display="none";
+
+        if(!(name in affection)) affection[name]=0;
+        localStorage.setItem("affection",JSON.stringify(affection));
+
+        openChat(name);
+      }
+    } else alert("Chưa đủ 5 🌸!");
+  }
+});
+
+// 5. Mở chat
+function openChat(name){
+  chars.style.display="none"; chat.style.display="flex";
+  document.getElementById("chatName").innerHTML = `${name} – Thiện cảm: <span id="affection">${affection[name]}</span>`;
+  document.getElementById("chatBox").innerHTML = `<div class="msg char">Chào em~ Anh là ${name} 💗</div>`;
+}
+
+// 6. Gửi tin nhắn + thiện cảm
+function sendMsg(){
+  let input = document.getElementById("chatInput");
+  let text = input.value.trim(); if(!text) return;
+
+  let chatName = document.getElementById("chatName").innerText.split(" – ")[0];
+
+  // Tin nhắn user
+  let userMsg = document.createElement("div"); userMsg.className="msg user"; userMsg.innerText=text;
+  document.getElementById("chatBox").appendChild(userMsg);
+
+  // Tin nhắn char + thay đổi thiện cảm
+  let delta = Math.random()<0.6?1:-1;
+  affection[chatName] += delta; if(affection[chatName]<0) affection[chatName]=0;
+  localStorage.setItem("affection",JSON.stringify(affection));
+
+  let charMsg = document.createElement("div"); charMsg.className="msg char";
+  charMsg.innerText = delta>0?"😊 Anh thích điều đó!":"😅 Anh không hài lòng!";
+  document.getElementById("chatBox").appendChild(charMsg);
+
+  // Update header + scroll
+  document.getElementById("chatName").innerHTML = `${chatName} – Thiện cảm: <span id="affection">${affection[chatName]}</span>`;
+  document.getElementById("chatBox").scrollTop = document.getElementById("chatBox").scrollHeight;
+  input.value="";
+}
+</script>
