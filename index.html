@@ -13,14 +13,14 @@ body{height:100vh;overflow:hidden;background:#fff;}
 @keyframes fly{0%{transform:translateY(0)}50%{transform:translateY(-30px)}100%{transform:translateY(0)}}
 
 /* ===== INTRO ===== */
-#intro{position:fixed;inset:0;background:linear-gradient(180deg,#ffe6f1,#fff);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;}
+#intro{position:fixed;inset:0;background:linear-gradient(180deg,#ffe6f1,#fff);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;cursor:pointer;}
 .logo{font-size:46px;font-weight:800;color:#ff8fb8;letter-spacing:2px;animation:pulse 1.5s infinite alternate;}
 @keyframes pulse{from{transform:scale(1)}to{transform:scale(1.08)}}
 .tap{margin-top:14px;color:#ff9ec6;animation:blink 1.2s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
 
 /* ===== APP ===== */
-#app{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#ffd1e6,#ffebf4);align-items:center;justify-content:center;animation:fade 1s ease;}
+#app{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#ffd1e6,#ffebf4);align-items:center;justify-content:center;animation:fade 1s ease;cursor:pointer;}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 .phone{width:240px;height:420px;border-radius:40px;background:linear-gradient(180deg,#fff,#ffe6f1);box-shadow:0 0 35px rgba(255,120,180,0.5);display:flex;flex-direction:column;align-items:center;justify-content:center;animation:pop 1s ease;}
 @keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
@@ -44,7 +44,7 @@ body{height:100vh;overflow:hidden;background:#fff;}
 .days{display:flex;gap:10px;margin:15px 0;}
 .day{flex:1;padding:14px;text-align:center;background:#fff5fa;border-radius:18px;font-size:13px;}
 .day.lock{opacity:.4}
-.claim{background:#ff6fa7;color:#fff;padding:12px;text-align:center;border-radius:20px;font-weight:600;animation:blink 1.3s infinite;}
+.claim{background:#ff6fa7;color:#fff;padding:12px;text-align:center;border-radius:20px;font-weight:600;animation:blink 1.3s infinite;cursor:pointer;}
 
 /* ===== CHAR ===== */
 #chars{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#ffe0ef,#fff);overflow-y:auto;padding-bottom:30px;}
@@ -56,6 +56,9 @@ body{height:100vh;overflow:hidden;background:#fff;}
 .name{text-align:center;padding:8px;color:#ff6fa7;font-weight:600;}
 .lock{position:absolute;inset:0;background:rgba(255,210,230,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;color:#ff4f90;}
 
+/* Nút nhiệm vụ trong card */
+.task-btn{position:absolute;bottom:8px;right:8px;background:#ff6fa7;color:#fff;padding:6px 10px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;}
+
 /* ===== CHAT ===== */
 #chat{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#ffe6f1,#fff);flex-direction:column;}
 .chat-header{padding:14px;background:#fff;box-shadow:0 3px 10px rgba(255,150,190,.3);text-align:center;font-weight:700;color:#ff6fa7;}
@@ -65,7 +68,7 @@ body{height:100vh;overflow:hidden;background:#fff;}
 .msg.user{margin-left:auto;background:#ff6fa7;color:#fff;border-top-right-radius:6px;}
 .input{display:flex;padding:10px;gap:8px;}
 .input input{flex:1;border:none;padding:10px;border-radius:18px;outline:none;box-shadow:0 0 8px rgba(255,150,190,.3);}
-.input button{background:#ff6fa7;border:none;color:#fff;padding:0 16px;border-radius:18px;}
+.input button{background:#ff6fa7;border:none;color:#fff;padding:0 16px;border-radius:18px;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -82,6 +85,7 @@ for(let i=0;i<30;i++){
   document.body.appendChild(f);
 }
 </script>
+
 <!-- ===== NHIỆM VỤ ===== -->
 <div id="task" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;z-index:20;">
   <div style="background:#eee;color:#333;width:90%;max-width:360px;border-radius:20px;padding:20px;box-shadow:0 0 30px rgba(0,0,0,0.2);">
@@ -96,77 +100,12 @@ for(let i=0;i<30;i++){
   </div>
 </div>
 
-<script>
-// Mở nhiệm vụ từ giao diện char
-function openTask(name){
-  document.getElementById("taskName").innerText = `Nhiệm vụ với ${name}`;
-  // Ví dụ story khác nhau theo char
-  let story = {
-    "Kael":"Kael từng gặp bạn ở mùa đông... anh ấy rất buồn vì bị bỏ rơi. Giúp Kael tìm lại nụ cười bằng cách trò chuyện vui vẻ với anh ấy.",
-    "Yến Tuân":"Yến Tuân đã từng lạc mất món đồ quý giá. Giúp anh ấy tìm lại bằng cách trả lời đúng các câu hỏi.",
-    "Mochi":"Mochi rất cô đơn khi ở trường cũ. Hãy an ủi và làm Mochi vui bằng tin nhắn của bạn.",
-    "Noel":"Noel từng thất bại trong dự án quan trọng. Hãy giúp anh ấy lấy lại tự tin bằng trò chuyện tích cực."
-  };
-  document.getElementById("taskStory").innerText = story[name] || "Hãy trò chuyện và làm char vui!";
-  task.style.display="flex";
-  currentTaskChar = name; // lưu char hiện tại
-}
-
-function closeTask(){ task.style.display="none"; }
-
-// Khi bấm bắt đầu nhiệm vụ → vào chat char
-let currentTaskChar="";
-function startTask(){
-  closeTask();
-  openChat(currentTaskChar);
-
-  // Thêm tin nhắn hướng dẫn nhiệm vụ vào chat
-  let box = document.getElementById("chatBox");
-  let msg = document.createElement("div");
-  msg.className="msg char";
-  msg.innerText="🎯 Nhiệm vụ: Hãy nhắn tin thật vui vẻ với mình để nhận thiện cảm!";
-  box.appendChild(msg);
-  box.scrollTop = box.scrollHeight;
-}
-
-// Gắn nút nhiệm vụ trong card (ví dụ thêm sau khi mở char)
-document.querySelectorAll(".card").forEach(card=>{
-  let name = card.querySelector(".name").innerText;
-  let btn = document.createElement("div");
-  btn.innerText="📜 Nhiệm vụ";
-  btn.style.cssText="position:absolute;bottom:8px;right:8px;background:#ff6fa7;color:#fff;padding:6px 10px;border-radius:12px;font
 <!-- INTRO -->
 <div id="intro" onclick="goApp()">
   <div class="logo">💗🌷</div>
   <div class="tap">Chạm để bắt đầu kết nối 💗</div>
 </div>
-<!-- Thêm nút Hoàn thành nhiệm vụ trong bảng chat nhiệm vụ -->
-<div style="text-align:center;margin-top:12px;">
-  <button id="completeTaskBtn" style="background:#ff6fa7;color:#fff;padding:10px 18px;border-radius:18px;font-weight:600;">Hoàn thành nhiệm vụ 🌸</button>
-</div>
 
-<script>
-// Khi bấm Hoàn thành nhiệm vụ
-document.getElementById("completeTaskBtn").onclick = ()=>{
-  // cộng hoa
-  flowers += 5; // ví dụ thưởng 5 hoa
-  localStorage.setItem("flowers",flowers);
-  document.getElementById("flower").innerText = flowers;
-
-  // cộng thiện cảm với char hiện tại
-  if(currentTaskChar){
-    affection[currentTaskChar] = (affection[currentTaskChar] || 0) + 5;
-    localStorage.setItem("affection",JSON.stringify(affection));
-    if(document.getElementById("chatName"))
-      document.getElementById("chatName").innerHTML = `${currentTaskChar} – Thiện cảm: <span id="affection">${affection[currentTaskChar]}</span>`;
-  }
-
-  alert(`🎉 Bạn đã hoàn thành nhiệm vụ! Nhận 5 🌸 và thiện cảm với ${currentTaskChar} tăng!`);
-  
-  closeTask();
-  openChat(currentTaskChar); // quay lại chat char
-}
-</script>
 <!-- APP -->
 <div id="app" onclick="goRule()">
   <div class="phone">
@@ -238,7 +177,7 @@ document.getElementById("completeTaskBtn").onclick = ()=>{
 <div id="chat">
   <div class="chat-header" id="chatName">Mochi – Thiện cảm: <span id="affection">0</span></div>
   <div class="chat-box" id="chatBox">
-    <div class="msg char">Chào em~ Anh là Mochi đây 💗</div>
+    <div class="msg char">Chào em~ Anh là Mochi 💗</div>
   </div>
   <div class="input">
     <input id="chatInput" placeholder="Nhập tin nhắn...">
@@ -247,13 +186,22 @@ document.getElementById("completeTaskBtn").onclick = ()=>{
 </div>
 
 <script>
-/* ===== CHUNG ===== */
+// ===== Khai báo chung =====
+const intro = document.getElementById("intro");
+const app = document.getElementById("app");
+const rule = document.getElementById("rule");
+const daily = document.getElementById("daily");
+const chars = document.getElementById("chars");
+const task = document.getElementById("task");
+
 let flowers = Number(localStorage.getItem("flowers")) || 0;
 let unlocked = JSON.parse(localStorage.getItem("unlocked") || "[]");
 let affection = JSON.parse(localStorage.getItem("affection") || "{}");
+let currentTaskChar = "";
+
 document.getElementById("flower").innerText = flowers;
 
-// Intro → App → Rule → Điểm danh
+// ===== Intro → App → Rule → Điểm danh =====
 function goApp(){ intro.style.display="none"; app.style.display="flex"; }
 function goRule(){ app.style.display="none"; rule.style.display="flex"; }
 document.querySelector(".ok").onclick = ()=>{
@@ -261,7 +209,7 @@ document.querySelector(".ok").onclick = ()=>{
   daily.style.display="flex";
 };
 
-// Điểm danh
+// ===== Điểm danh =====
 function claimFlower(){
   flowers +=10;
   localStorage.setItem("flowers",flowers);
@@ -270,12 +218,25 @@ function claimFlower(){
   chars.style.display="block";
 }
 
-// Gắn click cho card → mở khóa + chat
+// ===== Card unlock + mở chat + nhiệm vụ =====
 document.querySelectorAll(".card").forEach(card=>{
   let lock = card.querySelector(".lock");
   let name = card.querySelector(".name").innerText;
+
+  // Ẩn lock nếu đã unlock
   if(unlocked.includes(name)) lock.style.display="none";
 
+  // Nút nhiệm vụ
+  let btn = document.createElement("div");
+  btn.className="task-btn";
+  btn.innerText="📜 Nhiệm vụ";
+  card.appendChild(btn);
+  btn.onclick = (e)=>{
+    e.stopPropagation();
+    openTask(name);
+  }
+
+  // Click card để unlock + chat
   card.onclick = ()=>{
     if(unlocked.includes(name)){ openChat(name); return; }
     if(flowers>=5){
@@ -285,49 +246,50 @@ document.querySelectorAll(".card").forEach(card=>{
 
         unlocked.push(name);
         localStorage.setItem("unlocked",JSON.stringify(unlocked));
-        lock.style.display="none";
 
         if(!(name in affection)) affection[name]=0;
         localStorage.setItem("affection",JSON.stringify(affection));
 
+        lock.style.display="none";
         openChat(name);
       }
     } else alert("Chưa đủ 5 🌸!");
   }
 });
 
-// Mở chat
+// ===== Task modal =====
+function openTask(name){
+  currentTaskChar = name;
+  document.getElementById("taskName").innerText = `Nhiệm vụ với ${name}`;
+  const story = {
+    "Kael":"Kael từng gặp bạn ở mùa đông... anh ấy rất buồn vì bị bỏ rơi. Giúp Kael tìm lại nụ cười bằng cách trò chuyện vui vẻ với anh ấy.",
+    "Yến Tuân":"Yến Tuân đã từng lạc mất món đồ quý giá. Giúp anh ấy tìm lại bằng cách trả lời đúng các câu hỏi.",
+    "Mochi":"Mochi rất cô đơn khi ở trường cũ. Hãy an ủi và làm Mochi vui bằng tin nhắn của bạn.",
+    "Noel":"Noel từng thất bại trong dự án quan trọng. Hãy giúp anh ấy lấy lại tự tin bằng trò chuyện tích cực."
+  };
+  document.getElementById("taskStory").innerText = story[name] || "Hãy trò chuyện và làm char vui!";
+  task.style.display="flex";
+}
+function closeTask(){ task.style.display="none"; }
+function startTask(){
+  closeTask();
+  openChat(currentTaskChar);
+  const box = document.getElementById("chatBox");
+  let msg = document.createElement("div");
+  msg.className="msg char";
+  msg.innerText="🎯 Nhiệm vụ: Hãy nhắn tin thật vui vẻ với mình để nhận thiện cảm!";
+  box.appendChild(msg);
+  box.scrollTop = box.scrollHeight;
+}
+
+// ===== Chat =====
 function openChat(name){
   chars.style.display="none";
   chat.style.display="flex";
-  document.getElementById("chatName").innerHTML = `${name} – Thiện cảm: <span id="affection">${affection[name]}</span>`;
-  document.getElementById("chatBox").innerHTML = `<div class="msg char">Chào em~ Anh là ${name} 💗</div>`;
+  document.getElementById("chatName").innerHTML = `${name} – Thiện cảm: <span id="affection">${affection[name] || 0}</span>`;
+  const box = document.getElementById("chatBox");
+  box.innerHTML = `<div class="msg char">Chào em~ Anh là ${name} 💗</div>`;
+  box.scrollTop = box.scrollHeight;
 }
-
-// Gửi tin nhắn + thay đổi thiện cảm
 function sendMsg(){
-  let input = document.getElementById("chatInput");
-  let text = input.value.trim(); if(!text) return;
-  let chatName = document.getElementById("chatName").innerText.split(" – ")[0];
-
-  // Tin nhắn user
-  let userMsg = document.createElement("div");
-  userMsg.className="msg user"; userMsg.innerText=text;
-  document.getElementById("chatBox").appendChild(userMsg);
-
-  // Tin nhắn char
-  let delta = Math.random()<0.6?1:-1;
-  affection[chatName] += delta; if(affection[chatName]<0) affection[chatName]=0;
-  localStorage.setItem("affection",JSON.stringify(affection));
-
-  let charMsg = document.createElement("div"); charMsg.className="msg char";
-  charMsg.innerText = delta>0?"😊 Anh thích điều đó!":"😅 Anh không hài lòng!";
-  document.getElementById("chatBox").appendChild(charMsg);
-
-  document.getElementById("chatName").innerHTML = `${chatName} – Thiện cảm: <span id="affection">${affection[chatName]}</span>`;
-  document.getElementById("chatBox").scrollTop = document.getElementById("chatBox").scrollHeight;
-  input.value="";
-}
-</script>
-</body>
-  </html>
+  const input =
