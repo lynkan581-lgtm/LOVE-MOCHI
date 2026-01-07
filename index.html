@@ -46,6 +46,7 @@ body{height:100vh;overflow:hidden;background:#fff;}
 #daily{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#ffd1e6,#fff);align-items:center;justify-content:center;z-index:9;}
 .daily-board{width:90%;max-width:360px;background:#fff;border-radius:26px;padding:22px;box-shadow:0 0 40px rgba(255,120,180,.45);}
 .claim{background:#ff6fa7;color:#fff;padding:12px;text-align:center;border-radius:20px;font-weight:600;animation:blink 1.3s infinite;cursor:pointer;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.6}}
 
 /* Phone char */
 #phoneChar{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#ffe6f1,#fff);flex-direction:column;overflow-y:auto;}
@@ -134,10 +135,10 @@ for(let i=0;i<30;i++){
 let player="", playerAge="";
 let flowers=Number(localStorage.getItem("flowers")||0);
 let lastClaim=localStorage.getItem("lastClaim")||"";
-let unlocked=[], affection={}, currentChar="";
+let unlocked=[], affection=JSON.parse(localStorage.getItem("affection")||"{}"), currentChar="";
 let charData={
-  "Kael":{personality:"vui vẻ", mood:0, thoughts:[], messages:[], searches:[], schedule:["08:00: Cafe","10:00: Làm việc","18:00: Đi dạo"]},
-  "Yến Tuân":{personality:"trầm lắng", mood:0, thoughts:[], messages:[], searches:[], schedule:["09:00: Thể thao","12:00: Ăn trưa","20:00: Xem phim"]}
+  "Kael":{personality:"vui vẻ", mood:0, thoughts:["Hôm nay trời đẹp quá!","Mình muốn đi chơi cùng bạn"], messages:[], searches:[], schedule:["08:00: Cafe","10:00: Làm việc","18:00: Đi dạo"]},
+  "Yến Tuân":{personality:"trầm lắng", mood:0, thoughts:["Mình cảm thấy buồn một chút","Muốn nghe nhạc nhẹ"], messages:[], searches:[], schedule:["09:00: Thể thao","12:00: Ăn trưa","20:00: Xem phim"]}
 };
 document.getElementById("flower").innerText=flowers;
 
@@ -177,10 +178,18 @@ function showCharList(){
     const c=document.createElement("div");
     c.className="card";
     c.innerHTML=`<div class="name">${name}</div>`;
+    
     const thought=document.createElement("div");
-    thought.className="thought-icon"; thought.innerText="💭";
-    thought.onclick=e=>{e.stopPropagation(); alert(charData[name].thoughts.join("\n")||"Không có suy nghĩ");};
+    thought.className="thought-icon"; 
+    thought.innerText="💭";
+    thought.onclick=e=>{
+      e.stopPropagation();
+      if(charData[name].thoughts.length===0){
+        alert("Không có suy nghĩ 😶");
+      } else alert(charData[name].thoughts.join("\n"));
+    };
     c.appendChild(thought);
+
     c.onclick=()=>openChat(name);
     list.appendChild(c);
   }
@@ -192,6 +201,7 @@ function openChat(name){
   document.getElementById("chars").style.display="none";
   document.getElementById("chat").style.display="flex";
   document.getElementById("chatName").innerText=`${name} – Thiện cảm: ${affection[name]||0}`;
+  
   const box=document.getElementById("chatBox");
   box.innerHTML=`<div class="msg char">Chào ${player}! Anh là ${name} 💗</div>`;
 }
@@ -201,8 +211,12 @@ function sendMsg(){
   const input=document.getElementById("chatInput");
   const text=input.value.trim();
   if(!text) return;
+  
   const box=document.getElementById("chatBox");
-  const userMsg=document.createElement("div"); userMsg.className="msg user"; userMsg.innerText=text; box.appendChild(userMsg);
+  const userMsg=document.createElement("div"); 
+  userMsg.className="msg user"; 
+  userMsg.innerText=text; 
+  box.appendChild(userMsg);
 
   // Update history
   charData[currentChar].messages.push({from:"player", text});
@@ -213,7 +227,8 @@ function sendMsg(){
   document.getElementById("chatName").innerText=`${currentChar} – Thiện cảm: ${affection[currentChar]}`;
 
   // Fake AI reply
-  const reply=document.createElement("div"); reply.className="msg char";
+  const reply=document.createElement("div"); 
+  reply.className="msg char";
   const responses=[
     `Haha ${player}, thật vui khi em nói vậy!`,
     `${player}, anh nghĩ em thật đáng yêu 😄`,
@@ -231,11 +246,18 @@ function sendMsg(){
 function openTask(name){
   currentChar=name;
   document.getElementById("taskName").innerText=`Nhiệm vụ với ${name}`;
-  document.getElementById("taskStory").innerText=`Hãy trò chuyện vui vẻ với ${name} để tăng thiện cảm!`;
+  document.getElementById("taskStory").innerText=`Hãy trò chuyện vui vẻ với ${name} để tăng thiện cảm! Hoàn thành sẽ nhận 10 🌸.`;
   document.getElementById("task").style.display="flex";
 }
 function closeTask(){document.getElementById("task").style.display="none";}
-function startTask(){closeTask(); openChat(currentChar); alert("🎯 Nhiệm vụ bắt đầu, hoàn thành sẽ nhận 10 hoa!"); flowers+=10; document.getElementById("flower").innerText=flowers; localStorage.setItem("flowers",flowers);}
+function startTask(){
+  closeTask();
+  openChat(currentChar); 
+  alert("🎯 Nhiệm vụ bắt đầu! Bạn sẽ nhận 10 🌸 khi trò chuyện.");
+  flowers+=10; 
+  document.getElementById("flower").innerText=flowers; 
+  localStorage.setItem("flowers",flowers);
+}
 </script>
 </body>
   </html>
