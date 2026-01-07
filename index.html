@@ -35,7 +35,7 @@ body{height:100vh;overflow:hidden;background:#fff;}
 .board h2{color:#ff6fa7;text-align:center;margin-bottom:12px;}
 .board p{font-size:14px;line-height:1.6;color:#555;}
 .glow{text-shadow:0 0 8px #ffb7d5;}
-.ok{margin-top:18px;text-align:center;color:#ff6fa7;font-weight:600;animation:blink 1.4s infinite;}
+.ok{margin-top:18px;text-align:center;color:#ff6fa7;font-weight:600;animation:blink 1.4s infinite;cursor:pointer;}
 
 /* ===== ĐIỂM DANH ===== */
 #daily{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#ffd1e6,#fff);align-items:center;justify-content:center;z-index:9;}
@@ -55,8 +55,6 @@ body{height:100vh;overflow:hidden;background:#fff;}
 .card img{width:100%;height:160px;object-fit:cover;}
 .name{text-align:center;padding:8px;color:#ff6fa7;font-weight:600;}
 .lock{position:absolute;inset:0;background:rgba(255,210,230,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;color:#ff4f90;}
-
-/* Nút nhiệm vụ trong card */
 .task-btn{position:absolute;bottom:8px;right:8px;background:#ff6fa7;color:#fff;padding:6px 10px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;}
 
 /* ===== CHAT ===== */
@@ -74,6 +72,7 @@ body{height:100vh;overflow:hidden;background:#fff;}
 <body>
 
 <script>
+// 🌟 Hiệu ứng float
 const icons=["✨","⭐","💗","🌸"];
 for(let i=0;i<30;i++){
   let f=document.createElement("div");
@@ -86,28 +85,14 @@ for(let i=0;i<30;i++){
 }
 </script>
 
-<!-- ===== NHIỆM VỤ ===== -->
-<div id="task" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;z-index:20;">
-  <div style="background:#eee;color:#333;width:90%;max-width:360px;border-radius:20px;padding:20px;box-shadow:0 0 30px rgba(0,0,0,0.2);">
-    <h3 id="taskName" style="text-align:center;color:#ff6fa7;margin-bottom:10px;">Nhiệm vụ với Kael</h3>
-    <div id="taskStory" style="background:#ccc;border-radius:14px;padding:12px;font-size:13px;line-height:1.5;max-height:200px;overflow-y:auto;">
-      Kael từng gặp bạn ở mùa đông... anh ấy rất buồn vì bị bỏ rơi. Giúp Kael tìm lại nụ cười bằng cách trò chuyện vui vẻ với anh ấy.
-    </div>
-    <div style="text-align:center;margin-top:14px;">
-      <button onclick="startTask()" style="background:#ff6fa7;color:#fff;padding:10px 18px;border-radius:18px;font-weight:600;">Bắt đầu nhiệm vụ</button>
-      <button onclick="closeTask()" style="background:#aaa;color:#fff;padding:10px 18px;border-radius:18px;font-weight:600;margin-left:10px;">Đóng</button>
-    </div>
-  </div>
-</div>
-
 <!-- INTRO -->
-<div id="intro" onclick="goApp()">
+<div id="intro">
   <div class="logo">💗🌷</div>
   <div class="tap">Chạm để bắt đầu kết nối 💗</div>
 </div>
 
 <!-- APP -->
-<div id="app" onclick="goRule()">
+<div id="app">
   <div class="phone">
     <div class="heart">mochi love💖</div>
     <div class="enter">Chạm lần nữa để tiếp tục</div>
@@ -119,11 +104,7 @@ for(let i=0;i<30;i++){
   <div class="board">
     <h2 class="glow">CHÀO MỪNG ĐẾN LOVE MOCHI!</h2>
     <p>
-      Bạn là <b>người được chọn</b>! 💗<br><br>
-      Quy tắc rất đơn giản: bạn sẽ chat với những nhân vật và hoàn thành nhiệm vụ mà <b>Mochi</b> đưa ra.<br><br>
-      Nếu hoàn thành nhiệm vụ, bạn sẽ nhận <b>hoa 🌸</b> và tích điểm để mua những vật phẩm, chức năng tuyệt vời!<br><br>
-      Tuy nhiên, nếu thất bại bạn sẽ bị <b>- hoa</b> và <b>cấm làm nhiệm vụ</b>. Lúc này bạn chỉ có thể chat với char thường.<br><br>
-      Char thường cần tích hoa. Muốn có hoa, mỗi ngày đăng nhập bạn sẽ nhận <b>10 hoa</b> 🌸
+      Chat với nhân vật, hoàn thành nhiệm vụ và nhận hoa 🌸 để mở khóa các char khác!
     </p>
     <div class="ok">Chạm để bắt đầu hành trình ✨</div>
   </div>
@@ -138,17 +119,16 @@ for(let i=0;i<30;i++){
       <div class="day lock">🔒<br>Ngày 2</div>
       <div class="day">🌸<br>+10 Hoa</div>
     </div>
-    <div class="claim" onclick="claimFlower()">Nhận 10 🌸</div>
+    <div class="claim">Nhận 10 🌸</div>
   </div>
 </div>
 
-<!-- CHỌN NHÂN VẬT -->
+<!-- NHÂN VẬT -->
 <div id="chars">
   <div class="char-header">
     🌸 Nhân vật LOVE MOCHI
     <div class="flower-count">Hoa hiện có: <span id="flower">0</span> 🌸</div>
   </div>
-
   <div class="list">
     <div class="card">
       <img src="https://i.imgur.com/8Qf4F6y.jpg">
@@ -160,136 +140,125 @@ for(let i=0;i<30;i++){
       <div class="lock">🔒 Cần 5 🌸</div>
       <div class="name">Yến Tuân</div>
     </div>
-    <div class="card">
-      <img src="https://i.imgur.com/BxGz5cQ.jpg">
-      <div class="lock">🔒 Cần 5 🌸</div>
-      <div class="name">Mochi</div>
-    </div>
-    <div class="card">
-      <img src="https://i.imgur.com/TmYJz6Y.jpg">
-      <div class="lock">🔒 Cần 5 🌸</div>
-      <div class="name">Noel</div>
-    </div>
   </div>
 </div>
 
 <!-- CHAT -->
 <div id="chat">
   <div class="chat-header" id="chatName">Mochi – Thiện cảm: <span id="affection">0</span></div>
-  <div class="chat-box" id="chatBox">
-    <div class="msg char">Chào em~ Anh là Mochi 💗</div>
-  </div>
+  <div class="chat-box" id="chatBox"></div>
   <div class="input">
     <input id="chatInput" placeholder="Nhập tin nhắn...">
-    <button onclick="sendMsg()">Gửi</button>
+    <button id="sendBtn">Gửi</button>
   </div>
 </div>
 
 <script>
-// ===== Khai báo chung =====
+// ===== VARIABLES =====
 const intro = document.getElementById("intro");
 const app = document.getElementById("app");
 const rule = document.getElementById("rule");
 const daily = document.getElementById("daily");
 const chars = document.getElementById("chars");
-const task = document.getElementById("task");
+const flowerEl = document.getElementById("flower");
+const chat = document.getElementById("chat");
+const chatBox = document.getElementById("chatBox");
+const chatName = document.getElementById("chatName");
+const chatInput = document.getElementById("chatInput");
+const sendBtn = document.getElementById("sendBtn");
 
-let flowers = Number(localStorage.getItem("flowers")) || 0;
-let unlocked = JSON.parse(localStorage.getItem("unlocked") || "[]");
-let affection = JSON.parse(localStorage.getItem("affection") || "{}");
-let currentTaskChar = "";
+let flowers = Number(localStorage.getItem("flowers")||0);
+flowerEl.innerText = flowers;
+let unlocked = JSON.parse(localStorage.getItem("unlocked")||"[]");
+let affection = JSON.parse(localStorage.getItem("affection")||"{}");
+let currentChar = "";
 
-document.getElementById("flower").innerText = flowers;
+// ===== EVENTS =====
+// Intro → App
+intro.addEventListener("click", ()=>{
+  intro.style.display="none";
+  app.style.display="flex";
+});
 
-// ===== Intro → App → Rule → Điểm danh =====
-function goApp(){ intro.style.display="none"; app.style.display="flex"; }
-function goRule(){ app.style.display="none"; rule.style.display="flex"; }
+// App → Rule
+app.addEventListener("click", ()=>{
+  app.style.display="none";
+  rule.style.display="flex";
+});
+
+// Rule → Daily
 document.querySelector(".ok").onclick = ()=>{
   rule.style.display="none";
   daily.style.display="flex";
 };
 
-// ===== Điểm danh =====
-function claimFlower(){
+// Daily → Chars
+document.querySelector(".claim").onclick = ()=>{
   flowers +=10;
   localStorage.setItem("flowers",flowers);
-  document.getElementById("flower").innerText = flowers;
+  flowerEl.innerText = flowers;
   daily.style.display="none";
   chars.style.display="block";
-}
+};
 
-// ===== Card unlock + mở chat + nhiệm vụ =====
+// Unlock char + chat
 document.querySelectorAll(".card").forEach(card=>{
-  let lock = card.querySelector(".lock");
   let name = card.querySelector(".name").innerText;
-
-  // Ẩn lock nếu đã unlock
+  let lock = card.querySelector(".lock");
   if(unlocked.includes(name)) lock.style.display="none";
 
-  // Nút nhiệm vụ
-  let btn = document.createElement("div");
-  btn.className="task-btn";
-  btn.innerText="📜 Nhiệm vụ";
-  card.appendChild(btn);
-  btn.onclick = (e)=>{
-    e.stopPropagation();
-    openTask(name);
-  }
-
-  // Click card để unlock + chat
-  card.onclick = ()=>{
+  card.addEventListener("click", ()=>{
     if(unlocked.includes(name)){ openChat(name); return; }
     if(flowers>=5){
       if(confirm(`Mở khóa ${name} với 5 🌸?`)){
-        flowers -=5; localStorage.setItem("flowers",flowers);
-        document.getElementById("flower").innerText = flowers;
-
+        flowers -=5;
+        localStorage.setItem("flowers",flowers);
+        flowerEl.innerText = flowers;
         unlocked.push(name);
         localStorage.setItem("unlocked",JSON.stringify(unlocked));
-
-        if(!(name in affection)) affection[name]=0;
+        affection[name]=0;
         localStorage.setItem("affection",JSON.stringify(affection));
-
         lock.style.display="none";
         openChat(name);
       }
     } else alert("Chưa đủ 5 🌸!");
-  }
+  });
 });
 
-// ===== Task modal =====
-function openTask(name){
-  currentTaskChar = name;
-  document.getElementById("taskName").innerText = `Nhiệm vụ với ${name}`;
-  const story = {
-    "Kael":"Kael từng gặp bạn ở mùa đông... anh ấy rất buồn vì bị bỏ rơi. Giúp Kael tìm lại nụ cười bằng cách trò chuyện vui vẻ với anh ấy.",
-    "Yến Tuân":"Yến Tuân đã từng lạc mất món đồ quý giá. Giúp anh ấy tìm lại bằng cách trả lời đúng các câu hỏi.",
-    "Mochi":"Mochi rất cô đơn khi ở trường cũ. Hãy an ủi và làm Mochi vui bằng tin nhắn của bạn.",
-    "Noel":"Noel từng thất bại trong dự án quan trọng. Hãy giúp anh ấy lấy lại tự tin bằng trò chuyện tích cực."
-  };
-  document.getElementById("taskStory").innerText = story[name] || "Hãy trò chuyện và làm char vui!";
-  task.style.display="flex";
-}
-function closeTask(){ task.style.display="none"; }
-function startTask(){
-  closeTask();
-  openChat(currentTaskChar);
-  const box = document.getElementById("chatBox");
-  let msg = document.createElement("div");
-  msg.className="msg char";
-  msg.innerText="🎯 Nhiệm vụ: Hãy nhắn tin thật vui vẻ với mình để nhận thiện cảm!";
-  box.appendChild(msg);
-  box.scrollTop = box.scrollHeight;
-}
-
-// ===== Chat =====
+// ===== CHAT =====
 function openChat(name){
   chars.style.display="none";
   chat.style.display="flex";
-  document.getElementById("chatName").innerHTML = `${name} – Thiện cảm: <span id="affection">${affection[name] || 0}</span>`;
-  const box = document.getElementById("chatBox");
-  box.innerHTML = `<div class="msg char">Chào em~ Anh là ${name} 💗</div>`;
-  box.scrollTop = box.scrollHeight;
+  currentChar = name;
+  chatName.innerHTML = `${name} – Thiện cảm: <span id="affection">${affection[name]}</span>`;
+  chatBox.innerHTML = `<div class="msg char">Chào em~ Anh là ${name} 💗</div>`;
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
-function sendMsg(){
-  const input =
+
+sendBtn.onclick = ()=>{
+  const msg = chatInput.value.trim();
+  if(!msg) return;
+  const userMsg = document.createElement("div");
+  userMsg.className="msg user";
+  userMsg.innerText = msg;
+  chatBox.appendChild(userMsg);
+
+  // Tăng thiện cảm
+  affection[currentChar] = (affection[currentChar]||0)+1;
+  localStorage.setItem("affection",JSON.stringify(affection));
+  document.getElementById("affection").innerText = affection[currentChar];
+
+  // Phản hồi tự động
+  setTimeout(()=>{
+    const charMsg = document.createElement("div");
+    charMsg.className="msg char";
+    charMsg.innerText = ["Haha 😄","Anh vui quá!","💖 Cảm ơn em!","Hehe~ 😘"][Math.floor(Math.random()*4)];
+    chatBox.appendChild(charMsg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  },500);
+
+  chatInput.value="";
+};
+</script>
+</body>
+  </html>
