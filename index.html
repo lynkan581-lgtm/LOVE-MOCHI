@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LOVE MOCHI</title>
+<title>LOVE MOCHI AI</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
 body{height:100vh;overflow:hidden;background:#fff;}
@@ -13,7 +13,7 @@ body{height:100vh;overflow:hidden;background:#fff;}
 @keyframes fly{0%{transform:translateY(0)}50%{transform:translateY(-30px)}100%{transform:translateY(0)}}
 
 /* ===== INTRO ===== */
-#intro{position:fixed;inset:0;background:linear-gradient(180deg,#ffe6f1,#fff);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;cursor:pointer;}
+#intro{position:fixed;inset:0;background:linear-gradient(180deg,#ffe6f1,#fff);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;}
 .logo{font-size:46px;font-weight:800;color:#ff8fb8;letter-spacing:2px;animation:pulse 1.5s infinite alternate;}
 @keyframes pulse{from{transform:scale(1)}to{transform:scale(1.08)}}
 .tap{margin-top:14px;color:#ff9ec6;animation:blink 1.2s infinite;}
@@ -28,25 +28,27 @@ body{height:100vh;overflow:hidden;background:#fff;}
 @keyframes beat{0%{transform:scale(1)}50%{transform:scale(1.25)}100%{transform:scale(1)}}
 .enter{margin-top:20px;color:#ff6fa7;font-size:15px;animation:blink 1.3s infinite;}
 
-/* ===== BẢNG THÔNG BÁO ===== */
-#rule{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#ffb7d5,#ffe6f1);align-items:center;justify-content:center;}
-.board{width:85%;max-width:360px;background:#fff;border-radius:26px;padding:22px;box-shadow:0 0 40px rgba(255,120,180,0.45);animation:rise 1.2s ease;}
-@keyframes rise{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
-.board h2{color:#ff6fa7;text-align:center;margin-bottom:12px;}
-.board p{font-size:14px;line-height:1.6;color:#555;}
-.glow{text-shadow:0 0 8px #ffb7d5;}
-.ok{margin-top:18px;text-align:center;color:#ff6fa7;font-weight:600;animation:blink 1.4s infinite;cursor:pointer;}
+/* ===== MODAL ===== */
+.modal{position:fixed;inset:0;display:none;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;z-index:20;}
+.modal-content{background:#fff;color:#333;width:90%;max-width:360px;border-radius:20px;padding:20px;box-shadow:0 0 30px rgba(0,0,0,0.2);}
+.modal-content h3{text-align:center;color:#ff6fa7;margin-bottom:10px;}
+.modal-content button{background:#ff6fa7;color:#fff;padding:10px 18px;border-radius:18px;font-weight:600;cursor:pointer;}
+.modal-content button.close{background:#aaa;margin-left:10px;}
+
+/* ===== NHIỆM VỤ ===== */
+#task .modal-content{max-height:400px;overflow-y:auto;}
+#taskStory{background:#eee;border-radius:14px;padding:12px;font-size:13px;line-height:1.5;max-height:200px;overflow-y:auto;}
 
 /* ===== ĐIỂM DANH ===== */
 #daily{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#ffd1e6,#fff);align-items:center;justify-content:center;z-index:9;}
-.daily-board{width:90%;max-width:360px;background:#fff;border-radius:26px;padding:22px;box-shadow:0 0 40px rgba(255,120,180,.45);animation:rise 1s ease;}
+.daily-board{width:90%;max-width:360px;background:#fff;border-radius:26px;padding:22px;box-shadow:0 0 40px rgba(255,120,180,.45);}
 .daily-board h2{text-align:center;color:#ff6fa7;}
 .days{display:flex;gap:10px;margin:15px 0;}
 .day{flex:1;padding:14px;text-align:center;background:#fff5fa;border-radius:18px;font-size:13px;}
 .day.lock{opacity:.4}
 .claim{background:#ff6fa7;color:#fff;padding:12px;text-align:center;border-radius:20px;font-weight:600;animation:blink 1.3s infinite;cursor:pointer;}
 
-/* ===== CHAR ===== */
+/* ===== CHỌN NHÂN VẬT ===== */
 #chars{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#ffe0ef,#fff);overflow-y:auto;padding-bottom:30px;}
 .char-header{text-align:center;padding:14px;font-weight:700;color:#ff6fa7;background:#fff;box-shadow:0 3px 10px rgba(255,150,190,.3);}
 .flower-count{font-size:13px;margin-top:4px;}
@@ -72,7 +74,7 @@ body{height:100vh;overflow:hidden;background:#fff;}
 <body>
 
 <script>
-// 🌟 Hiệu ứng float
+// ✨ Sao + tim bay
 const icons=["✨","⭐","💗","🌸"];
 for(let i=0;i<30;i++){
   let f=document.createElement("div");
@@ -85,28 +87,23 @@ for(let i=0;i<30;i++){
 }
 </script>
 
-<!-- INTRO -->
-<div id="intro">
-  <div class="logo">💗🌷</div>
-  <div class="tap">Chạm để bắt đầu kết nối 💗</div>
+<!-- NHẬP TÊN -->
+<div id="login" class="modal" style="display:flex;">
+  <div class="modal-content">
+    <h3>Chào mừng đến Love Mochi 💗</h3>
+    <input id="playerName" placeholder="Nhập tên của bạn..." style="width:100%;padding:10px;border-radius:12px;margin-bottom:10px;outline:none;"/>
+    <input id="playerAge" placeholder="Nhập tuổi..." style="width:100%;padding:10px;border-radius:12px;margin-bottom:10px;outline:none;" type="number"/>
+    <div style="text-align:center;">
+      <button onclick="startGame()">Bắt đầu</button>
+    </div>
+  </div>
 </div>
 
 <!-- APP -->
 <div id="app">
   <div class="phone">
-    <div class="heart">mochi love💖</div>
+    <div class="heart">💗 Trái tim 💗</div>
     <div class="enter">Chạm lần nữa để tiếp tục</div>
-  </div>
-</div>
-
-<!-- RULE -->
-<div id="rule">
-  <div class="board">
-    <h2 class="glow">CHÀO MỪNG ĐẾN LOVE MOCHI!</h2>
-    <p>
-      Chat với nhân vật, hoàn thành nhiệm vụ và nhận hoa 🌸 để mở khóa các char khác!
-    </p>
-    <div class="ok">Chạm để bắt đầu hành trình ✨</div>
   </div>
 </div>
 
@@ -119,11 +116,11 @@ for(let i=0;i<30;i++){
       <div class="day lock">🔒<br>Ngày 2</div>
       <div class="day">🌸<br>+10 Hoa</div>
     </div>
-    <div class="claim">Nhận 10 🌸</div>
+    <div class="claim" onclick="claimFlower()">Nhận 10 🌸</div>
   </div>
 </div>
 
-<!-- NHÂN VẬT -->
+<!-- CHỌN NHÂN VẬT -->
 <div id="chars">
   <div class="char-header">
     🌸 Nhân vật LOVE MOCHI
@@ -145,120 +142,172 @@ for(let i=0;i<30;i++){
 
 <!-- CHAT -->
 <div id="chat">
-  <div class="chat-header" id="chatName">Mochi – Thiện cảm: <span id="affection">0</span></div>
+  <div class="chat-header" id="chatName"></div>
   <div class="chat-box" id="chatBox"></div>
   <div class="input">
     <input id="chatInput" placeholder="Nhập tin nhắn...">
-    <button id="sendBtn">Gửi</button>
+    <button onclick="sendMsg()">Gửi</button>
+  </div>
+</div>
+
+<!-- TASK -->
+<div id="task" class="modal">
+  <div class="modal-content">
+    <h3 id="taskName"></h3>
+    <div id="taskStory"></div>
+    <div style="text-align:center;margin-top:14px;">
+      <button onclick="startTask()">Bắt đầu nhiệm vụ</button>
+      <button class="close" onclick="closeTask()">Đóng</button>
+    </div>
   </div>
 </div>
 
 <script>
-// ===== VARIABLES =====
-const intro = document.getElementById("intro");
-const app = document.getElementById("app");
-const rule = document.getElementById("rule");
-const daily = document.getElementById("daily");
-const chars = document.getElementById("chars");
-const flowerEl = document.getElementById("flower");
-const chat = document.getElementById("chat");
-const chatBox = document.getElementById("chatBox");
-const chatName = document.getElementById("chatName");
-const chatInput = document.getElementById("chatInput");
-const sendBtn = document.getElementById("sendBtn");
+// ===== Khai báo =====
+let player = localStorage.getItem("playerName") || "";
+let playerAge = localStorage.getItem("playerAge") || "";
+let flowers = Number(localStorage.getItem("flowers")) || 0;
+let lastClaim = localStorage.getItem("lastClaim") || "";
+let unlocked = JSON.parse(localStorage.getItem("unlocked") || "[]");
+let affection = JSON.parse(localStorage.getItem("affection") || "{}");
+let currentTaskChar = "";
 
-let flowers = Number(localStorage.getItem("flowers")||0);
-flowerEl.innerText = flowers;
-let unlocked = JSON.parse(localStorage.getItem("unlocked")||"[]");
-let affection = JSON.parse(localStorage.getItem("affection")||"{}");
-let currentChar = "";
+// Hiển thị hoa
+document.getElementById("flower")?.innerText = flowers;
 
-// ===== EVENTS =====
-// Intro → App
-intro.addEventListener("click", ()=>{
-  intro.style.display="none";
-  app.style.display="flex";
-});
+// ===== Hàm =====
+function startGame(){
+  const name = document.getElementById("playerName").value.trim();
+  const age = document.getElementById("playerAge").value.trim();
+  if(!name || !age){ alert("Nhập đủ tên và tuổi!"); return; }
 
-// App → Rule
-app.addEventListener("click", ()=>{
-  app.style.display="none";
-  rule.style.display="flex";
-});
+  player = name; playerAge = age;
+  localStorage.setItem("playerName",player);
+  localStorage.setItem("playerAge",playerAge);
 
-// Rule → Daily
-document.querySelector(".ok").onclick = ()=>{
-  rule.style.display="none";
-  daily.style.display="flex";
-};
+  document.getElementById("login").style.display="none";
+  document.getElementById("app").style.display="flex";
 
-// Daily → Chars
-document.querySelector(".claim").onclick = ()=>{
+  // Kiểm tra điểm danh
+  const today = new Date().toISOString().slice(0,10);
+  if(lastClaim !== today){
+    document.getElementById("daily").style.display="flex";
+  } else {
+    document.getElementById("chars").style.display="block";
+  }
+}
+
+// ===== Điểm danh =====
+function claimFlower(){
   flowers +=10;
   localStorage.setItem("flowers",flowers);
-  flowerEl.innerText = flowers;
-  daily.style.display="none";
-  chars.style.display="block";
-};
+  const today = new Date().toISOString().slice(0,10);
+  localStorage.setItem("lastClaim",today);
+  document.getElementById("flower").innerText = flowers;
+  document.getElementById("daily").style.display="none";
+  document.getElementById("chars").style.display="block";
+}
 
-// Unlock char + chat
+// ===== Chat AI =====
+function openChat(name){
+  currentTaskChar = name;
+  document.getElementById("chars").style.display="none";
+  const chat = document.getElementById("chat");
+  chat.style.display="flex";
+  document.getElementById("chatName").innerHTML = `${name} – Thiện cảm: <span id="affection">${affection[name] || 0}</span>`;
+
+  const box = document.getElementById("chatBox");
+  box.innerHTML = `<div class="msg char">Chào ${player}! Anh là ${name} 💗</div>`;
+  box.scrollTop = box.scrollHeight;
+}
+
+function sendMsg(){
+  const input = document.getElementById("chatInput");
+  const text = input.value.trim();
+  if(!text) return;
+  const box = document.getElementById("chatBox");
+
+  // Người chơi
+  const userMsg = document.createElement("div");
+  userMsg.className = "msg user";
+  userMsg.innerText = text;
+  box.appendChild(userMsg);
+
+  // Tăng thiện cảm
+  const name = currentTaskChar;
+  affection[name] = (affection[name] || 0)+1;
+  localStorage.setItem("affection",JSON.stringify(affection));
+  document.getElementById("affection").innerText = affection[name];
+
+  // AI trả lời thông minh (đơn giản)
+  const charMsg = document.createElement("div");
+  charMsg.className = "msg char";
+
+  // Một số mẫu trả lời thông minh
+  const responses = [
+    `Wow ${player}, anh thật sự thích cách em nói 😄`,
+    `Haha, ${player} khiến anh cười quá!`,
+    `Em nghĩ gì vậy ${player}?`,
+    `Anh cảm thấy vui khi trò chuyện với em, ${player} 💗`,
+    `Thật tuyệt, ${player}! Câu chuyện này làm anh hạnh phúc`
+  ];
+  charMsg.innerText = responses[Math.floor(Math.random()*responses.length)];
+  box.appendChild(charMsg);
+
+  box.scrollTop = box.scrollHeight;
+  input.value="";
+}
+
+// ===== Task =====
+function openTask(name){
+  currentTaskChar = name;
+  document.getElementById("taskName").innerText = `Nhiệm vụ với ${name}`;
+  const story = {
+    "Kael":"Kael từng gặp bạn ở mùa đông... anh ấy rất buồn. Giúp Kael vui bằng trò chuyện thân thiện!",
+    "Yến Tuân":"Yến Tuân đã mất món đồ quý. Giúp anh ấy tìm lại qua trò chuyện thông minh."
+  };
+  document.getElementById("taskStory").innerText = story[name]||"Hãy trò chuyện và làm char vui!";
+  document.getElementById("task").style.display="flex";
+}
+function closeTask(){ document.getElementById("task").style.display="none"; }
+function startTask(){
+  closeTask();
+  openChat(currentTaskChar);
+  const box = document.getElementById("chatBox");
+  const msg = document.createElement("div");
+  msg.className="msg char";
+  msg.innerText="🎯 Nhiệm vụ: Hãy nhắn tin thật vui vẻ để tăng thiện cảm!";
+  box.appendChild(msg);
+  box.scrollTop = box.scrollHeight;
+}
+
+// ===== Card =====
 document.querySelectorAll(".card").forEach(card=>{
-  let name = card.querySelector(".name").innerText;
-  let lock = card.querySelector(".lock");
+  const lock = card.querySelector(".lock");
+  const name = card.querySelector(".name").innerText;
+
   if(unlocked.includes(name)) lock.style.display="none";
 
-  card.addEventListener("click", ()=>{
+  // Nút nhiệm vụ
+  const btn = document.createElement("div");
+  btn.className="task-btn"; btn.innerText="📜 Nhiệm vụ";
+  card.appendChild(btn);
+  btn.onclick = e=>{ e.stopPropagation(); openTask(name); }
+
+  // Click unlock + chat
+  card.onclick = ()=>{
     if(unlocked.includes(name)){ openChat(name); return; }
     if(flowers>=5){
       if(confirm(`Mở khóa ${name} với 5 🌸?`)){
-        flowers -=5;
-        localStorage.setItem("flowers",flowers);
-        flowerEl.innerText = flowers;
-        unlocked.push(name);
-        localStorage.setItem("unlocked",JSON.stringify(unlocked));
-        affection[name]=0;
-        localStorage.setItem("affection",JSON.stringify(affection));
-        lock.style.display="none";
-        openChat(name);
+        flowers-=5; localStorage.setItem("flowers",flowers);
+        document.getElementById("flower").innerText=flowers;
+        unlocked.push(name); localStorage.setItem("unlocked",JSON.stringify(unlocked));
+        if(!(name in affection)) affection[name]=0; localStorage.setItem("affection",JSON.stringify(affection));
+        lock.style.display="none"; openChat(name);
       }
     } else alert("Chưa đủ 5 🌸!");
-  });
+  }
 });
-
-// ===== CHAT =====
-function openChat(name){
-  chars.style.display="none";
-  chat.style.display="flex";
-  currentChar = name;
-  chatName.innerHTML = `${name} – Thiện cảm: <span id="affection">${affection[name]}</span>`;
-  chatBox.innerHTML = `<div class="msg char">Chào em~ Anh là ${name} 💗</div>`;
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-sendBtn.onclick = ()=>{
-  const msg = chatInput.value.trim();
-  if(!msg) return;
-  const userMsg = document.createElement("div");
-  userMsg.className="msg user";
-  userMsg.innerText = msg;
-  chatBox.appendChild(userMsg);
-
-  // Tăng thiện cảm
-  affection[currentChar] = (affection[currentChar]||0)+1;
-  localStorage.setItem("affection",JSON.stringify(affection));
-  document.getElementById("affection").innerText = affection[currentChar];
-
-  // Phản hồi tự động
-  setTimeout(()=>{
-    const charMsg = document.createElement("div");
-    charMsg.className="msg char";
-    charMsg.innerText = ["Haha 😄","Anh vui quá!","💖 Cảm ơn em!","Hehe~ 😘"][Math.floor(Math.random()*4)];
-    chatBox.appendChild(charMsg);
-    chatBox.scrollTop = chatBox.scrollHeight;
-  },500);
-
-  chatInput.value="";
-};
 </script>
 </body>
-  </html>
+      </html>
